@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
-
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -14,12 +14,16 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
+        'phone' => $faker->phoneNumber,
         'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'remember_token' => Str::random(10),
+        'gender' => rand(User::MALE, User::FE_MALE),
+        'birthdate' => $faker->dateTime($timeZone = null),
+        'address' => $faker->address,
+        'city_id' => rand(1,63),
+        'role_id' => 3, //user
     ];
 });
