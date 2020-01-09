@@ -1,14 +1,87 @@
-
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
 // Variables
 @import 'variables';
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+@font-face {
+    font-family: 'Quicksand';
+    src: url('./font/Quicksand-VariableFont:wght.ttf');
 }
+a:hover {
+    text-decoration: none !important;
+}
+* {
+    font-family: 'Quicksand';
+}
+//custome
+.btn-template {
+    color: $templateColorOrange;
+    border-color: $templateColorOrange;
+}
+.header {
+    border-bottom: 1px solid #c3c3c3;
+}
+.footer {
+    border-top: 1px solid #c3c3c3;
+}
+.navbar {
+    &-brand {
+        img {
+            max-width: 200px;
+        }
+    }
+}
+.hp-part-title {
+    h3 {
+        color: $templateColorOrange;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+}
+.product {
+    &-item {
+
+    }
+    &-name {
+        color: $textColorBlack;
+        font-weight: bold;
+    }
+    &-price {
+        p {
+            color: $templateColorOrange;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            font-size: 18px;
+        }
+    }
+}
+//form
+.form {
+    &-box {
+        padding: 15px;
+        border: 1px solid #c3c3c3;
+        -webkit-box-shadow: 9px 7px 5px -1px rgba(217,217,217,1);
+        -moz-box-shadow: 9px 7px 5px -1px rgba(217,217,217,1);
+        box-shadow: 9px 7px 5px -1px rgba(217,217,217,1);
+    }
+    &-body {
+        padding: 15px 0px;
+        border-bottom: 1px solid #c3c3c3;
+        border-top: 1px solid #c3c3c3;
+    }
+    &-title {
+        padding-bottom: 15px;
+    }
+    &-footer {
+        padding-top: 15px;
+    }
+}
+//login client
+.login-client {
+    height: 78vh;
+    display: flex;
+    align-items: center;
+}
+
