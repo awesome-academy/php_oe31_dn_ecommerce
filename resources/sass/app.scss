@@ -84,4 +84,28 @@ a:hover {
     display: flex;
     align-items: center;
 }
+//pagination
+div.pagination {
+    padding: 16px 0;
+    display: flex;
+    justify-content: center;
+}
+ul.pagination {
+    margin-bottom: 0;
+    .page {
+        &-link {
+            color: $templateColorOrange;
+        }
+        &-item {
+            .active .page-link {
+                background-color: $templateColorOrange;
+                border-color: $templateColorOrange;
+            }
+        }
+    }
+}
+.page-item.active .page-link {
+    background-color: $templateColorOrange;
+    border-color: $templateColorOrange;
+}
 

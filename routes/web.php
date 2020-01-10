@@ -20,4 +20,7 @@ Route::group(['namespace' => 'Auth'], function () {
 
 Route::group(['namespace' => 'Client'], function () {
     Route::get('/', 'HomeController@index')->name('client.home.index');
+    Route::get('/products', 'ProductController@index')->name('client.products.index');
+    Route::get('/products/filter', 'ProductController@filter')->name('client.products.filter');
+    Route::get('/product/{id}', 'ProductController@detail')->name('client.products.detail');
 });
