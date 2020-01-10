@@ -5,6 +5,11 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-8 my-4">
+                    @if (session('registerSuccess'))
+                        <div class="alert alert-success mb-2" role="alert">
+                            {{ session('registerSuccess') }}
+                        </div>
+                    @endif
                     <div class="form-box">
                         <form action="{{ route('client.login.post') }}" method="POST">
                             @csrf
@@ -18,14 +23,14 @@
                             </div>
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label for="email">{{ trans('custome.enter_input', ['attribute' => trans('attribute.email')]) }}</label>
+                                    <label for="email">{{ trans('custome.enter_input', ['attribute' => trans('validation.attributes.email')]) }}</label>
                                         @if ($errors->has('email'))
                                             <p class="mb-0 text-danger">{{ $errors->first('email') }}</p>
                                         @endif
                                     <input type="email" name="email" class="form-control" id="email" value="{{ old('email') }}">
                                 </div>
                                 <div class="form-group mb-0">
-                                    <label for="password">{{ trans('custome.enter_input', ['attribute' => trans('attribute.password')]) }}</label>
+                                    <label for="pwd">{{ trans('custome.enter_input', ['attribute' => trans('validation.attributes.password')]) }}</label>
                                         @if ($errors->has('password'))
                                             <p class="mb-0 text-danger">{{ $errors->first('password') }}</p>
                                         @endif

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Http\Requests\RegisterRequest;
+use App\Models\User;
+use App\Models\Role;
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -41,32 +44,36 @@ class RegisterController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function validator(array $data)
+    public function index()
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-        ]);
+        return view('client.register');
     }
 
     /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
+     * @param RegisterRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    protected function create(array $data)
+    protected function create(RegisterRequest $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $data = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'address' => $request->address,
+            'city_id' => $request->city,
+            'role_id' => Role::USER,
+        ];
+        if ($request->has(['gender', 'birthdate'])) {
+            $data['gender'] = $request->gender;
+            $data['birthdate'] = $request->birthdate;
+        }
+
+        User::create($data);
+
+        return redirect()->route('client.login.get')
+            ->with('registerSuccess', trans('custome.sign_up_success'));
     }
 }
