@@ -1,0 +1,23 @@
+{
+  "name": "sun_project_1",
+  "description": "",
+  "main": "",
+  "authors": [
+    "duongricky <duongricky113@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "4.3.1",
+    "jquery": "3.4.1",
+    "bower_dev": "https://github.com/duongricky/bower_sun_p1.git"
+  }
+}

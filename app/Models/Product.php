@@ -34,6 +34,14 @@ class Product extends Model
     }
 
     /**
+     * Get first image
+     */
+    public function first_image()
+    {
+        return $this->hasOne(Image::class)->where('type', '=', Image::FIRST);
+    }
+
+    /**
      * Get the ratings for the product.
      */
     public function ratings()
@@ -62,6 +70,6 @@ class Product extends Model
      */
     public function trends()
     {
-        return $this->belongsToMany(Trend::class);
+        return $this->belongsToMany(Trend::class, 'product_trends');
     }
 }
