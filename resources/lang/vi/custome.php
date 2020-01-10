@@ -1,0 +1,20 @@
+<?php
+return [
+    'products' => 'Sản phẩm',
+    'new_product' => 'Sản phẩm mới',
+    'sale' => 'Khuyến mãi',
+    'trend' => 'Xu hướng',
+    'sign_up' => 'Đăng ký',
+    'sign_in' => 'Đăng nhập',
+    'sign_out' => 'Đăng xuất',
+    'cart' => 'Giỏ hàng',
+    'signup_to_receive' => 'Đăng ký nhận thông tin từ JB',
+    'fail_signin' => 'Email hoặc mật khẩu không đúng',
+    'enter_input' => 'Nhập :attribute:',
+    'sign_up_success' => 'Đăng ký thành công',
+    'banner' => 'biểu ngữ',
+    'work_time_1' => '(08:30-21:30)',
+    'work_time_2' => '(08:30-20:30)',
+    'number_phone_1' => '090 251 29 97',
+    'number_phone_2' => '090 251 29 98',
+];
