@@ -17,14 +17,39 @@ a:hover {
 }
 //custome
 .btn-template {
-    color: $templateColorOrange;
+    color: white;
     border-color: $templateColorOrange;
+    background-color: $templateColorOrange;
+    font-weight: bold;
+    letter-spacing: 1px;
+    &:hover {
+        color: $templateColorOrange;
+        background-color: white;
+        transition: all 0.5s;
+    }
+}
+textarea {
+    height: 150px !important;
 }
 .header {
     border-bottom: 1px solid #c3c3c3;
 }
 .footer {
     border-top: 1px solid #c3c3c3;
+}
+.navbar {
+    &-brand {
+        img {
+            max-width: 200px;
+        }
+    }
+}
+.hp-part-title {
+    h3 {
+        color: $templateColorOrange;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
 }
 .navbar {
     &-brand {
@@ -108,4 +133,42 @@ ul.pagination {
     background-color: $templateColorOrange;
     border-color: $templateColorOrange;
 }
-
+//product detail
+.product {
+    &-content {
+        .name {
+            border-bottom: 1px dotted #dfe0e1;
+            p {
+                font-size: 35px;
+                color: $templateColorOrange;
+            }
+        }
+        .price-box {
+            border-bottom: 1px dotted #dfe0e1;
+            .sale-percent {
+                padding: 5px 15px;
+                background: #ededed;
+                font-size: 20px     ;
+            }
+            .price, .price-sale {
+                color: $templateColorOrange;
+                font-size: 25px;
+            }
+            .price-strike {
+                font-size: 20px;
+                font-weight: bold;
+            }
+        }
+        .description {
+            border-bottom: 1px dotted #dfe0e1;
+        }
+    }
+}
+//custome carousel
+.carousel-control-prev, .carousel-control-next {
+    opacity: 1 !important;
+}
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    width: 40px;
+    height: 40px;
+}

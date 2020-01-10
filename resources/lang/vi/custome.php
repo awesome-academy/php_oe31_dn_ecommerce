@@ -17,4 +17,8 @@ return [
     'work_time_2' => '(08:30-20:30)',
     'number_phone_1' => '090 251 29 97',
     'number_phone_2' => '090 251 29 98',
+    'add_to_cart' => 'Thêm vào giỏ',
+    'previous' => 'trước đó',
+    'next' => 'kế tiếp',
+    'comment' => 'bình luận',
 ];
