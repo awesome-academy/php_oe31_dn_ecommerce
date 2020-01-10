@@ -25,5 +25,6 @@ $factory->define(User::class, function (Faker $faker) {
         'address' => $faker->address,
         'city_id' => rand(1,63),
         'role_id' => 3, //user
+        'remember_token' => Str::random(10),
     ];
 });
