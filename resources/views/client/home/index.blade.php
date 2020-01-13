@@ -11,7 +11,7 @@
         <div class="row">
             @foreach ($productRelateds as $product)
                 <div class="col-12 col-md-3 mb-4">
-                    <a href="" class="product-item">
+                    <a href="{{ route('client.products.detail', ['id' => $product->id]) }}" class="product-item">
                         <div class="product-img">
                             <img class="w-100 h-auto"
                                  src="{{ asset(config('custome.link_img_product') . $product->first_image->name) }}"
@@ -48,7 +48,7 @@
         <div class="row">
             @foreach ($trend->products as $product)
                 <div class="col-12 col-md-3 mb-4">
-                    <a href="" class="product-item">
+                    <a href="{{ route('client.products.detail', ['id' => $product->id]) }}" class="product-item">
                         <div class="product-img">
                             <img class="w-100 h-auto"
                                  src="{{ asset(config('custome.link_img_product') . $product->first_image->name) }}"
