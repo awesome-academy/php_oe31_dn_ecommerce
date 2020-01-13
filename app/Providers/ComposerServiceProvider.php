@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Http\ViewComposers\CityComposer;
+use App\Http\ViewComposers\CategoryComposer;
 
 class ComposerServiceProvider extends ServiceProvider
 {
@@ -25,5 +26,6 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('client.register', CityComposer::class);
+        view()->composer(['client.layouts.header'], CategoryComposer::class);
     }
 }

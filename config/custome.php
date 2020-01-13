@@ -17,4 +17,13 @@ return [
     ],
     'link_banner' => 'storage/images/banners/',
     'link_img_product' => 'storage/images/products/',
+    'count_category' => 0,
+    'filter_by' => [
+        'price_ascending' => 'price_ascending',
+        'price_descending' => 'price_descending',
+        'name_a_z' => 'name_a_z',
+        'name_z_a' => 'name_z_a',
+        'oldest' => 'oldest',
+        'newest' => 'newest',
+    ],
 ];

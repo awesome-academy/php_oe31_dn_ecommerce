@@ -21,4 +21,33 @@ return [
     'previous' => 'trước đó',
     'next' => 'kế tiếp',
     'comment' => 'bình luận',
+    'category' => 'Thể loại',
+    'homepage' => 'Trang chủ',
+    'filter' => 'Bộ lọc',
+    'filter_by' => [
+        [
+            'name' => 'Giá tăng dần',
+            'value' => 'price_ascending',
+        ],
+        [
+            'name' => 'Giá giảm dần',
+            'value' => 'price_descending',
+        ],
+        [
+            'name' => 'Tên: A-Z',
+            'value' => 'name_a_z',
+        ],
+        [
+            'name' => 'Tên: Z-A',
+            'value' => 'name_z_a',
+        ],
+        [
+            'name' => 'Cũ nhất',
+            'value' => 'oldest',
+        ],
+        [
+            'name' => 'Mới nhất',
+            'value' => 'newest',
+        ],
+    ],
 ];
