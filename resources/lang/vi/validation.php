@@ -169,6 +169,7 @@ return [
         'birthdate' => 'ngày sinh',
         'message' => 'lời nhắn',
         'available' => 'có sẵn',
+        'not_available' => 'hết hàng',
         'size' => 'kích thước',
         'male' => 'nam',
         'fe_male' => 'nữ',

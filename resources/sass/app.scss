@@ -155,7 +155,7 @@ ul.pagination {
             .sale-percent {
                 padding: 5px 15px;
                 background: #ededed;
-                font-size: 20px     ;
+                font-size: 20px;
             }
             .price, .price-sale {
                 color: $templateColorOrange;
@@ -165,6 +165,9 @@ ul.pagination {
                 font-size: 20px;
                 font-weight: bold;
             }
+        }
+        .status {
+            border-bottom: 1px dotted #dfe0e1;
         }
         .description {
             border-bottom: 1px dotted #dfe0e1;
@@ -201,5 +204,22 @@ ul.pagination {
     top: 50px;
     a {
         color: $textColorBlack;
+    }
+}
+//client cart
+.table-cart {
+    td {
+        vertical-align: middle;
+        text-align: center;
+        border: 1px solid #dddddd;
+    }
+    img {
+        max-height: 140px;
+        width: auto;
+    }
+    .sale-percent {
+        padding: 5px 15px;
+        background: #ededed;
+        font-size: 15px;
     }
 }

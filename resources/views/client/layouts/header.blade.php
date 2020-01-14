@@ -57,15 +57,19 @@
                         </a>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" aria-label="Search">
-                    <button class="btn btn-template my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
-                </form>
                 <ul class="navbar-nav">
                     @if (auth()->check())
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-cart-arrow-down"></i> {{ trans('custome.cart') }}
+                            <a class="nav-link" href="{{ route('client.cart.index') }}">
+                                <i class="fas fa-cart-arrow-down"></i>
+                                @if (session()->has('cart'))
+                                    {{ trans('custome.cart') }}
+                                    <b class="text-danger">
+                                        {{ "(" . count(session()->get('cart')->items) . ")" }}
+                                    </b>
+                                @else
+                                    {{ trans('custome.cart') }}
+                                @endif
                             </a>
                         </li>
                         <li class="nav-item">

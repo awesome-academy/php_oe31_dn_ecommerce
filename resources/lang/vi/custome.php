@@ -50,4 +50,7 @@ return [
             'value' => 'newest',
         ],
     ],
+    'no_product_cart' => 'Không có sản phẩm nào trong giỏ hàng',
+    'not_add_product' => 'Bạn không thể thêm nhiều hơn :quantity sản phẩm với sản phẩm: :name',
+    'total_price' => 'tổng số tiền',
 ];
