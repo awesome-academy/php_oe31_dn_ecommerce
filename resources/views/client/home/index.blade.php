@@ -1,5 +1,7 @@
 @extends('client.layouts.master')
 
+@section('title', trans('custome.homepage'))
+
 @section('content')
     <div class="banner">
         <img class="w-100" src="{{ asset(config('custome.link_banner')) . '/banner-bg.jpg'}}" alt="{{ trans('custome.banner') }}">
@@ -12,10 +14,10 @@
             @foreach ($productRelateds as $product)
                 <div class="col-12 col-md-3 mb-4">
                     <a href="{{ route('client.products.detail', ['id' => $product->id]) }}" class="product-item">
-                        <div class="product-img">
+                        <div class="product-img-fix">
                             <img class="w-100 h-auto"
-                                 src="{{ asset(config('custome.link_img_product') . $product->first_image->name) }}"
-                                 alt="{{ $product->name }}">
+                                src="{{ asset(config('custome.link_img_product') . $product->first_image->name) }}"
+                                alt="{{ $product->name }}">
                         </div>
                         <div class="product-name text-center py-2">
                             <p class="mb-0">{{ $product->name }}</p>
@@ -49,10 +51,10 @@
             @foreach ($trend->products as $product)
                 <div class="col-12 col-md-3 mb-4">
                     <a href="{{ route('client.products.detail', ['id' => $product->id]) }}" class="product-item">
-                        <div class="product-img">
+                        <div class="product-img-fix">
                             <img class="w-100 h-auto"
-                                 src="{{ asset(config('custome.link_img_product') . $product->first_image->name) }}"
-                                 alt="{{ $product->name }}">
+                                src="{{ asset(config('custome.link_img_product') . $product->first_image->name) }}"
+                                alt="{{ $product->name }}">
                         </div>
                         <div class="product-name text-center py-2">
                             <p class="mb-0">{{ $product->name }}</p>

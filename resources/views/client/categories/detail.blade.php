@@ -1,19 +1,23 @@
 @extends('client.layouts.master')
 
-@section('title', trans('custome.products'))
+@section('title', trans('custome.category'))
 
 @section('content')
     <div class="container-fluid my-4">
-        <div class="hp-part-title mb-4">
-            <h3 class="text-center mb-0">{{ trans('custome.products') }}</h3>
+        <div class="hp-part-title">
+            <h3 class="text-center mb-0 text-capitalize">
+                {{ trans('custome.category') . ' - ' . $category->name }}
+            </h3>
         </div>
         <div class="row">
             <div class="col-12 py-3">
                 <div class="box-filter">
-                    <select class="filter-form form-control w-auto mr-2">
+                    <select class="filter-form-category form-control w-auto mr-2">
                         <option value="">{{ trans('custome.filter') }}</option>
                         @foreach (trans('custome.filter_by') as $filter)
-                            <option value="{{ $filter['value'] }}">{{ $filter['name'] }}</option>
+                            <option value="{{ $filter['value'] }}">
+                                {{ $filter['name'] }}
+                            </option>
                         @endforeach
                     </select>
                 </div>

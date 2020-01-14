@@ -21,4 +21,33 @@ return [
     'previous' => 'previous',
     'next' => 'next',
     'comment' => 'comment',
+    'category' => 'Category',
+    'homepage' => 'Homepage',
+    'filter' => 'Filter',
+    'filter_by' => [
+        [
+            'name' => 'Ascending price',
+            'value' => 'price_ascending',
+        ],
+        [
+            'name' => 'Descending price',
+            'value' => 'price_descending',
+        ],
+        [
+            'name' => 'Name: A-Z',
+            'value' => 'name_a_z',
+        ],
+        [
+            'name' => 'Name: Z-A',
+            'value' => 'name_z_a',
+        ],
+        [
+            'name' => 'Oldest',
+            'value' => 'oldest',
+        ],
+        [
+            'name' => 'Newest',
+            'value' => 'newest',
+        ],
+    ],
 ];

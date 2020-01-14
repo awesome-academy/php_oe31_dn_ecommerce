@@ -66,6 +66,13 @@ textarea {
     }
 }
 .product {
+    &-img-fix {
+        img {
+            height: fit-content !important;
+            max-height: 450px;
+            min-height: 450px;
+        }
+    }
     &-item {
 
     }
@@ -171,4 +178,28 @@ ul.pagination {
 .carousel-control-prev-icon, .carousel-control-next-icon {
     width: 40px;
     height: 40px;
+}
+//sub category
+.nav-item {
+    &:hover {
+        .sub-category {
+            display: block;
+        }
+    }
+}
+.sub-category {
+    display: none;
+    position: absolute;
+    z-index: 999;
+    background: white;
+    padding: 10px 40px;
+    border: 1px solid #c3c3c3;
+    -webkit-box-shadow: -4px 3px 5px -1px #b9b9b9;
+    -moz-box-shadow: -4px 3px 5px -1px #b9b9b9;
+    box-shadow: -4px 3px 5px -1px #b9b9b9;
+    width: max-content;
+    top: 50px;
+    a {
+        color: $textColorBlack;
+    }
 }

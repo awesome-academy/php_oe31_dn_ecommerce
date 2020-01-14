@@ -1,5 +1,7 @@
 @extends('client.layouts.master')
 
+@section('title', $product->name)
+
 @section('content')
     <div class="container my-4">
         <div class="row">
@@ -9,14 +11,14 @@
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img class="w-100 h-auto img-thumbnail"
-                                     src="{{ asset(config('custome.link_img_product') . $product->first_image->name) }}"
-                                     alt="{{ $product->first_image->name }}">
+                                    src="{{ asset(config('custome.link_img_product') . $product->first_image->name) }}"
+                                    alt="{{ $product->first_image->name }}">
                             </div>
                             @foreach ($product->images as $img)
                                 <div class="carousel-item">
                                     <img class="w-100 h-auto img-thumbnail"
-                                         src="{{ asset(config('custome.link_img_product') . $img->name) }}"
-                                         alt="{{ $img->name }}">
+                                        src="{{ asset(config('custome.link_img_product') . $img->name) }}"
+                                        alt="{{ $img->name }}">
                                 </div>
                             @endforeach
                         </div>

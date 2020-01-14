@@ -12,10 +12,39 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
+                    <li class="nav-item category">
                         <a class="nav-link" href="{{ route('client.products.index') }}">
                             {{ trans('custome.products') }}
                         </a>
+                        <ul class="sub-category">
+                            @foreach ($categories as $category)
+                                @if (sizeof($category->children) > config('custome.count_category'))
+                                    <li>
+                                        <a href="{{ route('client.category.detail', ['id' => $category->id]) }}">
+                                            {{ $category->name }}
+                                        </a>
+                                    </li>
+                                    @foreach ($category->children as $submenu)
+                                        <ul>
+                                            <li>
+                                                <a href="{{ route('client.category.detail', ['id' => $submenu->id]) }}">
+                                                    {{ $submenu->name }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    @endforeach
+                                @elseif ($category->parent_id == null)
+                                    <li>
+                                        <a href="{{ route('client.category.detail', ['id' => $category->id]) }}">
+                                            {{ $category->name }}
+                                        </a>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                        <ul>
+
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">

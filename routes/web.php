@@ -21,6 +21,8 @@ Route::group(['namespace' => 'Auth'], function () {
 Route::group(['namespace' => 'Client'], function () {
     Route::get('/', 'HomeController@index')->name('client.home.index');
     Route::get('/products', 'ProductController@index')->name('client.products.index');
-    Route::get('/products/filter', 'ProductController@filter')->name('client.products.filter');
+    Route::get('/products/filter/{filter_by}', 'ProductController@filter')->name('client.products.filter');
     Route::get('/product/{id}', 'ProductController@detail')->name('client.products.detail');
+    Route::get('/category/{id}', 'CategoryController@detail')->name('client.category.detail');
+    Route::get('/category/{id}/filter/{filter_by}', 'CategoryController@filter')->name('client.category.filter');
 });
