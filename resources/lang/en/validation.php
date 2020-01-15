@@ -174,9 +174,9 @@ return [
         'birthdate' => 'birthdate',
         'message' => 'message',
         'available' => 'available',
+        'not_available' => 'not available',
         'size' => 'size',
         'male' => 'male',
         'fe_male' => 'female',
     ],
-
 ];

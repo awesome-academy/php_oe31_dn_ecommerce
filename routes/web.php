@@ -25,4 +25,9 @@ Route::group(['namespace' => 'Client'], function () {
     Route::get('/product/{id}', 'ProductController@detail')->name('client.products.detail');
     Route::get('/category/{id}', 'CategoryController@detail')->name('client.category.detail');
     Route::get('/category/{id}/filter/{filter_by}', 'CategoryController@filter')->name('client.category.filter');
+    Route::get('/carts', 'CartController@index')->name('client.cart.index');
+    Route::get('/add-to-cart/{id}', 'CartController@addToCart')->name('client.cart.add');
+    Route::get('/increase-one/{id}', 'CartController@increaseOne')->name('client.cart.increase');
+    Route::get('/reduce-one/{id}', 'CartController@reduceByOne')->name('client.cart.reduce');
+    Route::get('/remove/{id}', 'CartController@removeItem')->name('client.cart.remove');
 });

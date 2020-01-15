@@ -50,4 +50,7 @@ return [
             'value' => 'newest',
         ],
     ],
+    'no_product_cart' => 'No products in the cart.',
+    'not_add_product' => 'You cannot add more than :quantity products with the product: :name',
+    'total_price' => 'total price',
 ];

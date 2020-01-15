@@ -51,12 +51,32 @@
                             @endif
                         </p>
                     </div>
+                    <div class="status py-3">
+                        <p class="mb-0 text-capitalize">
+                            <b>
+                                @if ($product->quantity > config('custome.count_item'))
+                                    {{ trans('validation.attributes.available') }}:
+                                    <span class="text-primary">{{ $product->quantity }}</span>
+                                @else
+                                    <span class="text-danger">{{ trans('validation.attributes.not_available') }}</span>
+                                @endif
+                            </b>
+                        </p>
+                    </div>
                     @if ($product->description != null)
                         <div class="description py-3">
                             <p class="mb-0 text-capitalize">
                                 <b>{{ trans('validation.attributes.description') }}:</b>
                             </p>
                             <p class="mb-0">{{ $product->description }}</p>
+                        </div>
+                    @endif
+                    @if ($product->quantity > config('custome.count_item'))
+                        <div class="action pt-3 text-center">
+                            <a class="btn btn-template my-2 my-sm-0 w-50"
+                               href="{{ route('client.cart.add', ['id' => $product->id]) }}">
+                                {{ trans('custome.add_to_cart') }}
+                            </a>
                         </div>
                     @endif
                     <div class="action pt-3 text-center">

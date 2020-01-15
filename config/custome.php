@@ -18,6 +18,7 @@ return [
     'link_banner' => 'storage/images/banners/',
     'link_img_product' => 'storage/images/products/',
     'count_category' => 0,
+    'count_item' => 0,
     'filter_by' => [
         'price_ascending' => 'price_ascending',
         'price_descending' => 'price_descending',
