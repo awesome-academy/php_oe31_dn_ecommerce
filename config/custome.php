@@ -3,6 +3,7 @@
 return [
     'number_pro_related' => 8,
     'paginate_pro' => 12,
+    'paginate_history_order' => 10,
     'unit_vnd' => 'đ',
     'cf_function_sp' => [
         'convert_vnd' => [

@@ -42,9 +42,6 @@
                                 @endif
                             @endforeach
                         </ul>
-                        <ul>
-
-                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
@@ -60,6 +57,26 @@
                 <ul class="navbar-nav">
                     @if (auth()->check())
                         <li class="nav-item">
+                            <div class="dropdown">
+                                <button class="btn btn-none-focus dropdown-toggle" type="button"
+                                    id="dropdownMenuButton" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    {{ auth()->user()->name }}
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ route('client.orders.histories') }}">
+                                        <i class="fas fa-history"></i> {{ trans('custome.order_history') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('client.user.profile') }}">
+                                        <i class="fas fa-user-edit"></i> {{ trans('custome.update_infor') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('client.logout') }}">
+                                        <i class="fas fa-sign-out-alt"></i> {{ trans('custome.sign_out') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('client.cart.index') }}">
                                 <i class="fas fa-cart-arrow-down"></i>
                                 @if (session()->has('cart'))
@@ -70,11 +87,6 @@
                                 @else
                                     {{ trans('custome.cart') }}
                                 @endif
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('client.logout') }}">
-                                <i class="fas fa-sign-out-alt"></i> {{ trans('custome.sign_out') }}
                             </a>
                         </li>
                     @else

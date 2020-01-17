@@ -28,6 +28,12 @@ a:hover {
         transition: all 0.5s;
     }
 }
+.btn-none-focus {
+    &:focus {
+        outline: unset !important;
+        box-shadow: unset !important;
+    }
+}
 textarea {
     height: 150px !important;
 }
@@ -222,4 +228,28 @@ ul.pagination {
         background: #ededed;
         font-size: 15px;
     }
+}
+//client order
+.table-order {
+    td {
+        vertical-align: middle;
+        text-align: center;
+        border: 1px solid #dddddd;
+    }
+    img {
+        max-height: 50px;
+        width: auto;
+    }
+    .sale-percent {
+        padding: 0 10px;
+        background: #ededed;
+        font-size: 15px;
+    }
+}
+.box-no-item-cart {
+    height: 77vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
 }
