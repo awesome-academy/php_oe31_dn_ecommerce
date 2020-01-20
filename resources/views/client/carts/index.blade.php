@@ -13,6 +13,18 @@
             <div class="col-12">
                 @if (session()->has('cart'))
                     <table class="table table-striped table-cart">
+                        <thead>
+                            <tr>
+                                <th class="text-capitalize">{{ trans('validation.attributes.image') }}</th>
+                                <th class="text-capitalize">{{ trans('validation.attributes.name') }}</th>
+                                <th class="text-capitalize">{{ trans('validation.attributes.price') }}</th>
+                                <th class="text-capitalize">{{ trans('validation.attributes.sale_price') }}</th>
+                                <th class="text-capitalize">{{ trans('validation.attributes.sale_percent') }}</th>
+                                <th class="text-capitalize">{{ trans('validation.attributes.quantity') }}</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
                         @foreach ($products as $product)
                             <tr>
                                 <td>
@@ -35,11 +47,15 @@
                                     <td>
                                         {{ convertVnd($product['item']->sale_price) }}
                                     </td>
+                                @else
+                                    <td></td>
                                 @endif
                                 @if ($product['item']->sale_percent != null)
                                     <td>
                                         <span class="sale-percent">{{ "-" . $product['item']->sale_percent . "%" }}</span>
                                     </td>
+                                @else
+                                    <td></td>
                                 @endif
                                 <td>
                                     <span class="text-primary">{{ $product['qty'] }}</span>
@@ -56,21 +72,33 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('client.cart.remove', ['id' => $product['item']->id]) }}"
-                                       class="btn btn-danger">
+                                        class="btn btn-danger">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>
                         @endforeach
                     </table>
-                    <div>
+                    <div class="d-flex justify-content-between">
                         <h5 class="text-capitalize">
                             {{ trans('custome.total_price') . ":" }}
                             <b class="text-primary"> {{ convertVnd($totalPrice) }}</b>
                         </h5>
+                        <a href="{{ route('client.orders.index') }}" class="btn btn-template text-capitalize">
+                            {{ trans('custome.order') }}
+                        </a>
                     </div>
                 @else
-                    <h1>{{ trans('custome.no_product_cart') }}</h1>
+                    <div class="box-no-item-cart">
+                        <div>
+                            <h1 class="mb-3">{{ trans('custome.no_history_order') }}</h1>
+                            <div>
+                                <a class="btn btn-template" href="{{ route('client.products.index') }}">
+                                    {{ trans('custome.continue_buy') }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 @endif
             </div>
         </div>
