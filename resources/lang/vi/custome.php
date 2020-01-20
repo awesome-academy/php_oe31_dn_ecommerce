@@ -69,4 +69,13 @@ return [
     'not_edit_order' => 'Không thể chỉnh sửa những đơn hàng đã thành công',
     'update' => 'Cập nhật',
     'update_success' => 'Cập nhật thành công',
+    'list_comments' => 'Danh sách bình luận',
+    'no_comments' => 'Chưa có bình luận',
+    'rating' => 'Đánh giá',
+    'not_rating' => 'Bạn không thể đánh giá sản phẩm này vì bạn chưa từng đặt nó trước đó',
+    'rating_success' => 'Đánh giá thành công',
+    'list_rating' => 'Danh sách đánh giá',
+    'no_rating' => 'Không có đánh giá',
+    'suggest' => 'Đề xuất',
+    'suggest_success' => 'Đề xuất thành công',
 ];

@@ -23,6 +23,10 @@ Route::group(['namespace' => 'Client'], function () {
     Route::get('/products', 'ProductController@index')->name('client.products.index');
     Route::get('/products/filter/{filter_by}', 'ProductController@filter')->name('client.products.filter');
     Route::get('/product/{id}', 'ProductController@detail')->name('client.products.detail');
+    Route::post('/product/comment/{id}', 'ProductController@comment')->name('client.products.comment');
+    Route::post('/product/rating/{id}', 'ProductController@rating')->name('client.products.rating');
+    Route::get('/suggest', 'SuggestController@suggestGet')->name('client.suggest.get');
+    Route::post('/suggest', 'SuggestController@suggestPost')->name('client.suggest.post');
     Route::get('/product/comment', 'ProductController@comment')->name('client.products.comment');
     Route::get('/category/{id}', 'CategoryController@detail')->name('client.category.detail');
     Route::get('/category/{id}/filter/{filter_by}', 'CategoryController@filter')->name('client.category.filter');
