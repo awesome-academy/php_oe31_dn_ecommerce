@@ -13,6 +13,7 @@
     <title>@yield('title')</title>
     @yield('style')
 </head>
+
 <body>
     @include('client.layouts.header')
 
@@ -21,6 +22,7 @@
     @include('client.layouts.footer')
 
     <script src="{{ asset('plugins/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('plugins/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
