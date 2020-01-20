@@ -10,6 +10,16 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
+    Route::get('/login', 'LoginController@loginGet')->name('admin.login.get');
+    Route::post('/login', 'LoginController@loginPost')->name('admin.login.post');
+    Route::get('/logout', 'LoginController@logout')->name('admin.logout');
+    Route::group(['middleware' => ['admin-auth']], function () {
+        Route::get('/homepage', 'HomeController@index')->name('admin.home.index');
+    });
+});
+
 Route::group(['namespace' => 'Auth'], function () {
     Route::get('/login', 'LoginController@index')->name('client.login.get');
     Route::post('/login', 'LoginController@login')->name('client.login.post');
@@ -28,6 +38,10 @@ Route::group(['namespace' => 'Client'], function () {
     Route::get('/suggest', 'SuggestController@suggestGet')->name('client.suggest.get');
     Route::post('/suggest', 'SuggestController@suggestPost')->name('client.suggest.post');
     Route::get('/product/comment', 'ProductController@comment')->name('client.products.comment');
+    Route::post('/product/comment/{id}', 'ProductController@comment')->name('client.products.comment');
+    Route::post('/product/rating/{id}', 'ProductController@rating')->name('client.products.rating');
+    Route::get('/suggest', 'SuggestController@suggestGet')->name('client.suggest.get');
+    Route::post('/suggest', 'SuggestController@suggestPost')->name('client.suggest.post');
     Route::get('/category/{id}', 'CategoryController@detail')->name('client.category.detail');
     Route::get('/category/{id}/filter/{filter_by}', 'CategoryController@filter')->name('client.category.filter');
     Route::get('/carts', 'CartController@index')->name('client.cart.index');
