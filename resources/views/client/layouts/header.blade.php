@@ -49,8 +49,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            {{ trans('custome.trend') }}
+                        <a class="nav-link" href="{{ route('client.suggest.get') }}">
+                            {{ trans('custome.suggest') }}
                         </a>
                     </li>
                 </ul>

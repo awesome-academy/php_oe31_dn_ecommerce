@@ -28,4 +28,10 @@ return [
         'oldest' => 'oldest',
         'newest' => 'newest',
     ],
+    'star_number_1' => 1,
+    'star_number_2' => 2,
+    'star_number_3' => 3,
+    'star_number_4' => 4,
+    'star_number_5' => 5,
+    'path_storage_suggest' => 'app/public/images/suggests/',
 ];

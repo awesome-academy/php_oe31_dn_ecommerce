@@ -72,32 +72,115 @@
                         </div>
                     @endif
                     @if ($product->quantity > config('custome.count_item'))
-                        <div class="action pt-3 text-center">
+                        <div class="action py-3 text-center">
                             <a class="btn btn-template my-2 my-sm-0 w-50"
-                               href="{{ route('client.cart.add', ['id' => $product->id]) }}">
+                                href="{{ route('client.cart.add', ['id' => $product->id]) }}">
                                 {{ trans('custome.add_to_cart') }}
                             </a>
                         </div>
                     @endif
-                    <div class="action pt-3 text-center">
-                        <a class="btn btn-template my-2 my-sm-0 w-50" href="">
-                            {{ trans('custome.add_to_cart') }}
-                        </a>
+                    <div class="rating pt-3">
+                        <div class="title">
+                            <h5 class="mb-0">{{ trans('custome.rating') }}</h5>
+                            @if (session('ratingSuccess'))
+                                <div class="alert alert-success mb-0 my-2" role="alert">
+                                    {{ session('ratingSuccess') }}
+                                </div>
+                            @endif
+                            @if (session('notRating'))
+                                <div class="alert alert-danger mb-0 my-2" role="alert">
+                                    {{ session('notRating') }}
+                                </div>
+                            @endif
+                        </div>
+                        <div class="box-rate">
+                            <form action="{{ route('client.products.rating', ['id' => $product->id]) }}" method="POST">
+                                @csrf
+                                @if ($errors->has('star_number'))
+                                    <p class="mb-0 text-danger">{{ $errors->first('star_number') }}</p>
+                                @endif
+                                <div class="star_number">
+                                    <input type="radio" id="star5" name="star_number" class="fas fa-star"
+                                        value="{{ config('custome.star_number_5') }}">
+                                    <label for="star5" title="text"></label>
+                                    <input type="radio" id="star4" name="star_number" class="fas fa-star"
+                                        value="{{ config('custome.star_number_4') }}">
+                                    <label for="star4" title="text"></label>
+                                    <input type="radio" id="star3" name="star_number" class="fas fa-star"
+                                        value="{{ config('custome.star_number_3') }}">
+                                    <label for="star3" title="text"></label>
+                                    <input type="radio" id="star2" name="star_number" class="fas fa-star"
+                                        value="{{ config('custome.star_number_2') }}">
+                                    <label for="star2" title="text"></label>
+                                    <input type="radio" id="star1" name="star_number" class="fas fa-star"
+                                        value="{{ config('custome.star_number_1') }}">
+                                    <label for="star1" title="text"></label>
+                                </div>
+                                <div>
+                                    <button class="btn btn-template ml-2" type="submit">{{ trans('custome.rating') }}</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
+            <div class="col-8 pt-3">
+                @if ($product->ratings->count() > config('custome.count_item'))
+                    <h4>{{ trans('custome.list_rating') }}</h4>
+                    @foreach ($product->ratings as $rt)
+                        <div class="list-cmt-item py-2">
+                            <div class="user-name">
+                                <p class="mb-0">
+                                    {{ $rt->user->name }} - <span>{{ date_format($rt->created_at, 'd-m-Y H:i:s') }}</span>
+                                </p>
+                            </div>
+                            <div class="content">
+                                <p class="mb-0">
+                                    @for ($i = 0; $i < $rt->star_number; $i++)
+                                        <i class="star-yellow fas fa-star"></i>
+                                    @endfor
+                                    @for ($i = 0; $i < config('custome.star_number_5') - $rt->star_number; $i++)
+                                        <i class="star-white fas fa-star"></i>
+                                    @endfor
+                                </p>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <h4>{{ trans('custome.no_rating') }}</h4>
+                @endif
+            </div>
+            <div class="col-12 pt-3">
+                @if ($product->comments->count() > config('custome.count_item'))
+                    <h4>{{ trans('custome.list_comments') }}</h4>
+                    @foreach ($product->comments as $cmt)
+                        <div class="list-cmt-item py-2">
+                            <div class="user-name">
+                                <p class="mb-0">
+                                    {{ $cmt->user->name }} - <span>{{ date_format($cmt->created_at, 'd-m-Y H:i:s') }}</span>
+                                </p>
+                            </div>
+                            <div class="content">
+                                <p class="mb-0">{{ $cmt->content }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <h4>{{ trans('custome.no_comments') }}</h4>
+                @endif
+            </div>
             <div class="col-12 pt-3">
                 <div class="form-box">
-                    <form action="{{ route('client.products.comment') }}" method="POST">
+                    <form action="{{ route('client.products.comment', ['id' => $product->id]) }}" method="POST">
                         @csrf
-                            <h4 class="mb-0 pb-2 text-capitalize">{{ trans('custome.comment') }}</h4>
-                            @if (session('status'))
-                                <div class="alert alert-danger mb-0 mt-2" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
+                        <h4 class="mb-0 pb-2 text-capitalize">{{ trans('custome.comment') }}</h4>
+                        @if (session('status'))
+                            <div class="alert alert-danger mb-0 mt-2" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         <div class="form-body">
                             <div class="form-group">
                                 <label for="content">

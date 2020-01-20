@@ -178,6 +178,9 @@ ul.pagination {
         .description {
             border-bottom: 1px dotted #dfe0e1;
         }
+        .action {
+            border-bottom: 1px dotted #dfe0e1;
+        }
     }
 }
 //custome carousel
@@ -252,4 +255,54 @@ ul.pagination {
     flex-direction: column;
     justify-content: center;
     text-align: center;
+}
+//list comment
+.list-cmt {
+    &-item {
+        border-bottom: 1px solid #dddddd;
+        &:last-child {
+            border-bottom: 0px;
+        }
+    }
+}
+//rating number star
+.star_number {
+    float: left;
+    height: 50px;
+}
+.star_number:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.star_number:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.star_number:not(:checked) > label:before {
+    content: '★ ';
+}
+.star_number > input:checked ~ label {
+    color: #ffc700;
+}
+.star_number:not(:checked) > label:hover,
+.star_number:not(:checked) > label:hover ~ label {
+    color: #deb217;
+}
+.star_number > input:checked + label:hover,
+.star_number > input:checked + label:hover ~ label,
+.star_number > input:checked ~ label:hover,
+.star_number > input:checked ~ label:hover ~ label,
+.star_number > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+.star-yellow {
+    color: #ffc700;
+}
+.star-white {
+    color: #ccc;
 }

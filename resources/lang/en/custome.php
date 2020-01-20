@@ -69,4 +69,13 @@ return [
     'not_edit_order' => 'Can\'t edit orders that were successful',
     'update' => 'update',
     'update_success' => 'Update successfully',
+    'list_comments' => 'List comments',
+    'no_comments' => 'No comments',
+    'rating' => 'Rating',
+    'not_rating' => 'You cannot rate this product because you have never ordered this',
+    'rating_success' => 'Rate successfully',
+    'list_rating' => 'List rating',
+    'no_rating' => 'No rating',
+    'suggest' => 'suggest',
+    'suggest_success' => 'suggest successfully',
 ];

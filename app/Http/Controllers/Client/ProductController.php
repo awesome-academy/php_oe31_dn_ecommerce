@@ -2,13 +2,25 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Http\Requests\CommentRequest;
+use App\Http\Requests\RatingRequest;
+use App\Models\Comment;
+use App\Models\OrderDetail;
+use App\Models\Rating;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Helpers\FilterHelper;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['comment', 'rating']);
+    }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -70,5 +82,55 @@ class ProductController extends Controller
         $products = $products->paginate($numPagination);
 
         return view('client.products.filter', ['products' => $products, 'filterBy' => $filterBy]);
+    }
+
+    /**
+     * @param CommentRequest $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function comment(CommentRequest $request, $id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+            Comment::create([
+                'user_id' => auth()->user()->id,
+                'product_id' => $id,
+                'content' => $request->content,
+                'status' => Comment::ACTIVE,
+            ]);
+
+            return redirect()->back();
+        } catch (ModelNotFoundException $ex) {
+            throw new \Exception($ex->getMessage());
+        }
+    }
+
+    public function rating(RatingRequest $request, $id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+            $checkOrder = DB::table('order_details')
+                ->join('orders', 'order_details.order_id', '=', 'orders.id')
+                ->join('users', 'orders.user_id', '=', 'users.id')
+                ->where('orders.user_id', '=', auth()->user()->id)
+                ->where('order_details.product_id', '=', $id)
+                ->count();
+
+            if ($checkOrder > config('custome.count_item')) {
+                Rating::create([
+                    'user_id' => auth()->user()->id,
+                    'product_id' => $id,
+                    'star_number' => $request->star_number,
+                ]);
+
+                return redirect()->back()->with('ratingSuccess', trans('custome.rating_success'));
+            } else {
+                return redirect()->back()->with('notRating', trans('custome.not_rating'));
+            }
+        } catch (ModelNotFoundException $ex) {
+            throw new \Exception($ex->getMessage());
+        }
     }
 }
