@@ -78,4 +78,7 @@ return [
     'no_rating' => 'No rating',
     'suggest' => 'suggest',
     'suggest_success' => 'suggest successfully',
+    'admin_page' => 'Admin page',
+    'admin' => 'Admin',
+    'unauthorized_action' => 'Unauthorized action',
 ];

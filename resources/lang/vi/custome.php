@@ -78,4 +78,7 @@ return [
     'no_rating' => 'Không có đánh giá',
     'suggest' => 'Đề xuất',
     'suggest_success' => 'Đề xuất thành công',
+    'admin_page' => 'Trang quản trị',
+    'admin' => 'Quản trị viên',
+    'unauthorized_action' => 'Hành động trái phép',
 ];
