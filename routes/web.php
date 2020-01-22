@@ -18,6 +18,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
     Route::group(['middleware' => ['admin-auth']], function () {
         Route::get('/', 'HomeController@index')->name('admin.home.index');
         Route::get('/statistic', 'HomeController@statistic');
+        Route::get('/users', 'UserController@index')->name('admin.users.index');
+        Route::get('/users/lock/{id}', 'UserController@lock')->name('admin.user.lock');
+        Route::get('/users/active/{id}', 'UserController@active')->name('admin.user.active');
+        Route::resource('categories', 'CategoryController');
+        Route::get('category/delete/{id}', 'CategoryController@delete')->name('admin.categories.delete');
     });
 });
 

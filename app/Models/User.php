@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable;
-    
+
     protected $fillable = [
         'name',
         'phone',
@@ -20,6 +20,7 @@ class User extends Authenticatable
         'address',
         'city_id',
         'role_id',
+        'status',
     ];
 
     protected $hidden = [
@@ -31,6 +32,12 @@ class User extends Authenticatable
      */
     const MALE = 1;
     const FE_MALE = 2;
+    
+    /*
+     * Define status
+     */
+    const ACTIVE = 1;
+    const LOCK = 2;
 
     /**
      * Get the city that owns the user.

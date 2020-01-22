@@ -40,8 +40,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')
-            ->except(['index', 'create']);
+        $this->middleware('guest')->except('index', 'create');
     }
 
     /**
@@ -66,9 +65,12 @@ class RegisterController extends Controller
             'address' => $request->address,
             'city_id' => $request->city,
             'role_id' => Role::USER,
+            'status' => User::ACTIVE,
         ];
-        if ($request->has(['gender', 'birthdate'])) {
+        if ($request->has('gender')) {
             $data['gender'] = $request->gender;
+        }
+        if ($request->has('gender')) {
             $data['birthdate'] = $request->birthdate;
         }
 
