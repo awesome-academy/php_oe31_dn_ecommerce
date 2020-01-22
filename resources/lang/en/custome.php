@@ -81,4 +81,8 @@ return [
     'admin_page' => 'Admin page',
     'admin' => 'Admin',
     'unauthorized_action' => 'Unauthorized action',
+    'title_order_related' => 'List of 7 most recent orders',
+    'user' => 'user',
+    'manage' => 'manage',
+    'admin_lte_3' => 'Admin Lte 3',
 ];

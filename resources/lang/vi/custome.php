@@ -81,4 +81,8 @@ return [
     'admin_page' => 'Trang quản trị',
     'admin' => 'Quản trị viên',
     'unauthorized_action' => 'Hành động trái phép',
+    'title_order_related' => 'Danh sách 7 đơn hàng gần nhất',
+    'user' => 'Người dùng',
+    'manage' => 'Quản lý',
+    'admin_lte_3' => 'Admin Lte 3',
 ];

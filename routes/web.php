@@ -16,7 +16,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
     Route::post('/login', 'LoginController@loginPost')->name('admin.login.post');
     Route::get('/logout', 'LoginController@logout')->name('admin.logout');
     Route::group(['middleware' => ['admin-auth']], function () {
-        Route::get('/homepage', 'HomeController@index')->name('admin.home.index');
+        Route::get('/', 'HomeController@index')->name('admin.home.index');
+        Route::get('/statistic', 'HomeController@statistic');
     });
 });
 
@@ -33,6 +34,7 @@ Route::group(['namespace' => 'Client'], function () {
     Route::get('/products', 'ProductController@index')->name('client.products.index');
     Route::get('/products/filter/{filter_by}', 'ProductController@filter')->name('client.products.filter');
     Route::get('/product/{id}', 'ProductController@detail')->name('client.products.detail');
+    Route::get('/product/comment', 'ProductController@comment')->name('client.products.comment');
     Route::post('/product/comment/{id}', 'ProductController@comment')->name('client.products.comment');
     Route::post('/product/rating/{id}', 'ProductController@rating')->name('client.products.rating');
     Route::get('/suggest', 'SuggestController@suggestGet')->name('client.suggest.get');

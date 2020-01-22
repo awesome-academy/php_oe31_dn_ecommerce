@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Order extends Model
 {
@@ -17,6 +18,7 @@ class Order extends Model
      */
     const PENDING = 1;
     const SUCCESS = 2;
+    const CANCEL = 3;
 
     /**
      * Get the user that owns the order.
@@ -32,5 +34,23 @@ class Order extends Model
     public function order_details()
     {
         return $this->hasMany(OrderDetail::class);
+    }
+
+    /**
+     * @param $date
+     * @return string
+     */
+    public function getCreatedAtAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d-m-Y H:i:s');
+    }
+
+    /**
+     * @param $date
+     * @return string
+     */
+    public function getUpdatedAtAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d-m-Y H:i:s');
     }
 }
