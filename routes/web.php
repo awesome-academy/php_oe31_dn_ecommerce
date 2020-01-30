@@ -22,7 +22,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
         Route::get('/users/lock/{id}', 'UserController@lock')->name('admin.user.lock');
         Route::get('/users/active/{id}', 'UserController@active')->name('admin.user.active');
         Route::resource('categories', 'CategoryController');
-        Route::get('category/delete/{id}', 'CategoryController@delete')->name('admin.categories.delete');
+        Route::get('category/delete/{id}', 'CategoryController@delete')->name('admin.category.delete');
     });
 });
 

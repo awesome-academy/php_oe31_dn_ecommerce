@@ -1,0 +1,20 @@
+.form {
+    &-box {
+        padding: 15px;
+        border: 1px solid #c3c3c3;
+        -webkit-box-shadow: 9px 7px 5px -1px rgba(217,217,217,1);
+        -moz-box-shadow: 9px 7px 5px -1px rgba(217,217,217,1);
+        box-shadow: 9px 7px 5px -1px rgba(217,217,217,1);
+    }
+    &-body {
+        padding: 15px 0px;
+        border-bottom: 1px solid #c3c3c3;
+        border-top: 1px solid #c3c3c3;
+    }
+    &-title {
+        padding-bottom: 15px;
+    }
+    &-footer {
+        padding-top: 15px;
+    }
+}

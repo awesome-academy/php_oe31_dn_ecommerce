@@ -1,4 +1,36 @@
 $(document).ready(function () {
+    function deleteConfirmItem(message) {
+        return confirm(message);
+    }
+
+    $('.lock-user').on('click', function (event) {
+        deleteConfirmItem($('meta[name="confirmActiveUser"]').attr('content'));
+    });
+
+    $('.active-user').on('click', function (event) {
+        deleteConfirmItem($('meta[name="confirmActiveUser"]').attr('content'));
+    });
+
+    $('.delete-category').on('click', function (event) {
+        deleteConfirmItem($('meta[name="confirmDeleteCate"]').attr('content'));
+    });
+
+    $('.delete-product').on('click', function (event) {
+        deleteConfirmItem($('meta[name="confirmDeleteProduct"]').attr('content'));
+    });
+
+    $('.delete-order').on('click', function (event) {
+        deleteConfirmItem($('meta[name="confirmDeleteOrder"]').attr('content'));
+    });
+
+    $('.order-change-pending').on('click', function (event) {
+        deleteConfirmItem($('meta[name="confirmOrderPending"]').attr('content'));
+    });
+
+    $('.order-change-success').on('click', function (event) {
+        deleteConfirmItem($('meta[name="confirmOrderSuccess"]').attr('content'));
+    });
+
     //get and handle data
     //handleData is a function
     function statistic(handleData) {
@@ -17,7 +49,6 @@ $(document).ready(function () {
         });
         return false;
     }
-
     //call ajax to drwal chart
     statistic(function (data) {
         let myChart = document.getElementById('canvasUserSta').getContext('2d');
