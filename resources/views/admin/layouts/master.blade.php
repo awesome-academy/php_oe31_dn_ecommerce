@@ -7,6 +7,8 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    @yield('meta-header')
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('plugins/bower_dev/fontawesome-free/all.min.css')}} ">
     <!-- Ionicons -->
@@ -15,6 +17,9 @@
     <link rel="stylesheet" href="{{ asset('plugins/bower_dev/admin/css/adminlte.min.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="{{ asset('plugins/bower_dev/admin/css/fontSansPro.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+
     @yield('style')
 </head>
 <body class="hold-transition sidebar-mini">
@@ -39,7 +44,6 @@
 
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <!-- Brand Logo -->
         <a href="" class="brand-link text-center">
             <h3 class="font-weight-bold">
                 <b class="brand-text font-weight-bold">{{ trans('custome.admin_lte_3') }}</b>
@@ -61,20 +65,36 @@
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="" class="nav-link text-capitalize">
+                        <a href="{{ route('admin.users.index') }}" class="nav-link text-capitalize">
                             <i class="nav-icon fas fa-user"></i>
                             <p>
                                 {{ trans('custome.manage') }} {{ trans('custome.user') }}
+                                <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item has-treeview">
                         <a href="" class="nav-link text-capitalize">
-                            <i class="nav-icon fas fa-list"></i>
+                            <i class="fab fa-audible nav-icon"></i>
                             <p>
                                 {{ trans('custome.manage') }} {{ trans('custome.category') }}
+                                <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('categories.index') }}" class="nav-link">
+                                    <i class="fas fa-list nav-icon"></i>
+                                    <p>{{ trans('custome.list') }}</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('categories.create') }}" class="nav-link">
+                                    <i class="fas fa-plus nav-icon"></i>
+                                    <p>{{ trans('custome.create') }}</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a href="" class="nav-link text-capitalize">
