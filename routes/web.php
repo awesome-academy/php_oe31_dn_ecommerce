@@ -23,6 +23,15 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
         Route::get('/users/active/{id}', 'UserController@active')->name('admin.user.active');
         Route::resource('categories', 'CategoryController');
         Route::get('category/delete/{id}', 'CategoryController@delete')->name('admin.category.delete');
+        Route::resource('products', 'ProductController');
+        Route::get('product/delete/{id}', 'ProductController@delete')->name('admin.product.delete');
+        Route::resource('orders', 'OrderController')->except(['edit', 'destroy']);
+        Route::get('/order/pending/{id}', 'OrderController@changePending')->name('admin.order.change-pending');
+        Route::get('/order/success/{id}', 'OrderController@changeSuccess')->name('admin.order.change-success');
+        Route::get('/order/cancel/{id}', 'OrderController@changeCancel')->name('admin.order.change-cancel');
+        Route::get('/order/delete/{id}', 'OrderController@delete')->name('admin.order.delete');
+        Route::resource('suggests', 'SuggestController')->only('index');
+        Route::get('/suggest/delete/{id}', 'SuggestController@delete')->name('admin.suggest.delete');
     });
 });
 
@@ -39,11 +48,6 @@ Route::group(['namespace' => 'Client'], function () {
     Route::get('/products', 'ProductController@index')->name('client.products.index');
     Route::get('/products/filter/{filter_by}', 'ProductController@filter')->name('client.products.filter');
     Route::get('/product/{id}', 'ProductController@detail')->name('client.products.detail');
-    Route::get('/product/comment', 'ProductController@comment')->name('client.products.comment');
-    Route::post('/product/comment/{id}', 'ProductController@comment')->name('client.products.comment');
-    Route::post('/product/rating/{id}', 'ProductController@rating')->name('client.products.rating');
-    Route::get('/suggest', 'SuggestController@suggestGet')->name('client.suggest.get');
-    Route::post('/suggest', 'SuggestController@suggestPost')->name('client.suggest.post');
     Route::get('/product/comment', 'ProductController@comment')->name('client.products.comment');
     Route::post('/product/comment/{id}', 'ProductController@comment')->name('client.products.comment');
     Route::post('/product/rating/{id}', 'ProductController@rating')->name('client.products.rating');

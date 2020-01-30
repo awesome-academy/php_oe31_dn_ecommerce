@@ -26,6 +26,12 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer(['client.register', 'client.users.profile'], CityComposer::class);
-        view()->composer(['client.layouts.header'], CategoryComposer::class);
+        view()->composer([
+            'client.layouts.header',
+            'admin.categories.create',
+            'admin.categories.detail',
+            'admin.products.create',
+            'admin.products.detail',
+        ], CategoryComposer::class);
     }
 }
