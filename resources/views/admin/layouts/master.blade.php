@@ -21,6 +21,7 @@
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 
     @yield('style')
+
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -33,10 +34,14 @@
                 <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="" class="nav-link">Home</a>
+                <a href="{{ route('admin.home.index') }}" class="nav-link">Home</a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.logout') }}">
+                    {{ trans('custome.sign_out') }}
+                </a>
             </li>
         </ul>
     </nav>
@@ -69,7 +74,6 @@
                             <i class="nav-icon fas fa-user"></i>
                             <p>
                                 {{ trans('custome.manage') }} {{ trans('custome.user') }}
-                                <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                     </li>
@@ -96,19 +100,42 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item has-treeview">
                         <a href="" class="nav-link text-capitalize">
                             <i class="nav-icon fas fa-tshirt"></i>
                             <p>
                                 {{ trans('custome.manage') }} {{ trans('custome.products') }}
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('products.index') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-list-alt"></i>
+                                    <p>{{ trans('custome.list') }} {{ trans('custome.products') }}</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('products.create') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-plus"></i>
+                                    <p>{{ trans('custome.create') }}</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('orders.index') }}" class="nav-link text-capitalize">
+                            <i class="nav-icon fab fa-accusoft"></i>
+                            <p>
+                                {{ trans('custome.manage') }} {{ trans('custome.order') }}
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link text-capitalize">
-                            <i class="nav-icon fab fa-accusoft"></i>
+                        <a href="{{ route('suggests.index') }}" class="nav-link text-capitalize">
+                            <i class="nav-icon fas fa-lightbulb"></i>
                             <p>
-                                {{ trans('custome.manage') }} {{ trans('custome.order') }}
+                                {{ trans('custome.manage') }} {{ trans('custome.suggest') }}
                             </p>
                         </a>
                     </li>
@@ -149,5 +176,8 @@
 <script src="{{ asset('plugins/bower_dev/admin/js/adminlte.min.js') }}"></script>
 <script src="{{ asset('plugins/chart.js/dist/Chart.min.js') }}"></script>
 <script src="{{ asset('js/admin/admin.js') }}"></script>
+
+@yield('scripts')
+
 </body>
 </html>

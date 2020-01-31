@@ -18,3 +18,25 @@
         padding-top: 15px;
     }
 }
+.table {
+    &-product {
+        img {
+            width: 150px;
+        }
+    }
+    &-suggest {
+        img {
+            width: 300px;
+        }
+    }
+}
+.pagination {
+    margin-bottom: 0 !important;
+}
+.sale-percent {
+    padding: 5px 15px;
+    background: #444444;
+    font-size: 20px;
+    color: #fffefe;
+    border-radius: 3px;
+}
