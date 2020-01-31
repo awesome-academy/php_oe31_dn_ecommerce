@@ -31,6 +31,10 @@ $(document).ready(function () {
         deleteConfirmItem($('meta[name="confirmOrderSuccess"]').attr('content'));
     });
 
+    $('.order-change-cancel').on('click', function (event) {
+        deleteConfirmItem($('meta[name="confirmOrderCancel"]').attr('content'));
+    });
+
     //get and handle data
     //handleData is a function
     function statistic(handleData) {
