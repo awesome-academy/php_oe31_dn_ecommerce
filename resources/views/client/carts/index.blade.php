@@ -40,12 +40,12 @@
                                     @if ($product['item']->sale_price != null)
                                         <strike>{{ convertVnd($product['item']->price) }}</strike>
                                     @else
-                                        {{ convertVnd($product['item']->price) }}
+                                        <b>{{ convertVnd($product['item']->price) }}</b>
                                     @endif
                                 </td>
                                 @if ($product['item']->sale_price != null)
                                     <td>
-                                        {{ convertVnd($product['item']->sale_price) }}
+                                        <b>{{ convertVnd($product['item']->sale_price) }}</b>
                                     </td>
                                 @else
                                     <td></td>
@@ -91,7 +91,7 @@
                 @else
                     <div class="box-no-item-cart">
                         <div>
-                            <h1 class="mb-3">{{ trans('custome.no_history_order') }}</h1>
+                            <h1 class="mb-3">{{ trans('custome.no_product_cart') }}</h1>
                             <div>
                                 <a class="btn btn-template" href="{{ route('client.products.index') }}">
                                     {{ trans('custome.continue_buy') }}

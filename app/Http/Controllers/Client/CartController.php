@@ -14,7 +14,7 @@ class CartController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware(['guest', 'check-product-qty'])->except(['index', 'removeItem']);
     }
 
     public function index()
@@ -41,6 +41,10 @@ class CartController extends Controller
             $product = Product::findOrFail($id);
             $issetCart = Session::has('cart') ? Session::get('cart') : null;
             $cart = new Cart($issetCart);
+            if ($cart->items != null && array_key_exists($id, $cart->items)) {
+                return redirect()->back()
+                    ->with('statusProductExist', trans('custome.cart_product_exists'));
+            }
             $cart->add($product, $product->id);
             $request->session()->put('cart', $cart);
 

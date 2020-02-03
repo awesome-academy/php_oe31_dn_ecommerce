@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin-auth' => \App\Http\Middleware\AdminCheck::class,
         'admin-redirect' => \App\Http\Middleware\AdminRedirect::class,
+        'check-product-qty' => \App\Http\Middleware\CheckProductQuantity::class,
     ];
 
     /**
