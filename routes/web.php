@@ -32,6 +32,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
         Route::get('/order/delete/{id}', 'OrderController@delete')->name('admin.order.delete');
         Route::resource('suggests', 'SuggestController')->only('index');
         Route::get('/suggest/delete/{id}', 'SuggestController@delete')->name('admin.suggest.delete');
+        Route::resource('comments', 'CommentController')->only('index');
+        Route::get('/comment/delete/{id}', 'CommentController@delete')->name('admin.comment.delete');
+        Route::get('/comment/active/{id}', 'CommentController@active')->name('admin.comment.active');
+        Route::get('/comment/lock/{id}', 'CommentController@lock')->name('admin.comment.lock');
     });
 });
 

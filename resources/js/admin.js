@@ -34,7 +34,7 @@ $(document).ready(function () {
     $('.order-change-cancel').on('click', function (event) {
         deleteConfirmItem($('meta[name="confirmOrderCancel"]').attr('content'));
     });
-    
+
     $('.delete-suggest').on('click', function (event) {
         deleteConfirmItem($('meta[name="confirmDeleteSuggest"]').attr('content'));
     });
@@ -42,7 +42,6 @@ $(document).ready(function () {
     $('.delete-comment').on('click', function (event) {
         deleteConfirmItem($('meta[name="confirmDeleteComment"]').attr('content'));
     });
-
     $('.active-comment').on('click', function (event) {
         deleteConfirmItem($('meta[name="confirmActiveComment"]').attr('content'));
     });
@@ -50,6 +49,7 @@ $(document).ready(function () {
     $('.lock-comment').on('click', function (event) {
         deleteConfirmItem($('meta[name="confirmLockComment"]').attr('content'));
     });
+
     //get and handle data
     //handleData is a function
     function statistic(handleData) {
