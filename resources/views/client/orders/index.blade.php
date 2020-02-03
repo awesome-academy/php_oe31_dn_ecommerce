@@ -20,45 +20,45 @@
                                     @endif
                                 </div>
                                 <div class="form-body">
-                                    <div class="form-group">
+                                    <div class="form-group mb-1">
                                         <label for="name" class="text-capitalize">
                                             {{ trans('validation.attributes.name') }}
                                         </label>
                                         @if ($errors->has('name'))
-                                            <p class="mb-0 text-danger">{{ $errors->first('email') }}</p>
+                                            <p class="mb-0 text-danger">{{ $errors->first('name') }}</p>
                                         @endif
-                                        <input type="text" name="name" class="form-control" id="name" disabled
-                                            value="{{ auth()->user()->name }}">
+                                        <input type="text" name="name" class="form-control" id="name"
+                                            value="{{ old('name') }}">
                                     </div>
-                                    <div class="form-group mb-0">
-                                        <label for="phone"c lass="text-capitalize">
+                                    <div class="form-group mb-1">
+                                        <label for="phone" class="text-capitalize">
                                             {{ trans('validation.attributes.phone') }}
                                         </label>
                                         @if ($errors->has('phone'))
-                                            <p class="mb-0 text-danger">{{ $errors->first('password') }}</p>
+                                            <p class="mb-0 text-danger">{{ $errors->first('phone') }}</p>
                                         @endif
-                                        <input type="text" name="phone" class="form-control" id="phone" disabled
-                                            value="{{ auth()->user()->phone }}">
+                                        <input type="text" name="phone" class="form-control" id="phone"
+                                            value="{{ old('phone') }}">
                                     </div>
-                                    <div class="form-group mb-0">
+                                    <div class="form-group mb-1">
                                         <label for="email" class="text-capitalize">
                                             {{ trans('validation.attributes.email') }}
                                         </label>
                                         @if ($errors->has('email'))
-                                            <p class="mb-0 text-danger">{{ $errors->first('password') }}</p>
+                                            <p class="mb-0 text-danger">{{ $errors->first('email') }}</p>
                                         @endif
-                                        <input type="text" name="email" class="form-control" id="email" disabled
-                                            value="{{ auth()->user()->email }}">
+                                        <input type="text" name="email" class="form-control" id="email"
+                                            value="{{ old('email') }}">
                                     </div>
-                                    <div class="form-group mb-0">
+                                    <div class="form-group mb-1">
                                         <label for="address" class="text-capitalize">
                                             {{ trans('validation.attributes.address') }}
                                         </label>
                                         @if ($errors->has('address'))
                                             <p class="mb-0 text-danger">{{ $errors->first('address') }}</p>
                                         @endif
-                                        <input type="text" name="address" class="form-control" id="address" disabled
-                                            value="{{ auth()->user()->address }}">
+                                        <input type="text" name="address" class="form-control" id="address"
+                                            value="{{ old('address') }}">
                                     </div>
                                     <div class="form-group mb-0">
                                         <label for="city" class="text-capitalize">
@@ -67,11 +67,14 @@
                                         @if ($errors->has('city'))
                                             <p class="mb-0 text-danger">{{ $errors->first('city') }}</p>
                                         @endif
-                                        <input type="text" name="city" class="form-control" id="city" disabled
-                                            value="{{ auth()->user()->city->name }}">
-                                    </div>
-                                    <div class="form-group mb-0 mt-1 text-right">
-                                        <a href="">{{ trans('custome.note_update_infor') }}</a>
+                                        <select class="custom-select" name="city">
+                                            <option></option>
+                                            @foreach ($cities as $city)
+                                                <option value="{{ $city->id }}" @if (old('city') == $city->id) selected @endif>
+                                                    {{ $city->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-footer text-center">
@@ -82,9 +85,30 @@
                     @endif
 
                     @if (isset($orderSuccess))
-                        <div class="alert alert-success mb-0" role="alert">
-                            <p class="mb-1">{{ $orderSuccess }}</p>
-                            <p class="mb-0">{{ $orderCode }}</p>
+                        <div class="alert alert-success mb-3" role="alert">
+                            <h4 class="mb-1">{{ $orderSuccess }}</h4>
+                        </div>
+                        <div class="alert alert-secondary">
+                            <h4>{{ trans('custome.shipment_detail') }}</h4>
+                            <hr>
+                            <p>
+                                <b class="text-capitalize">{{ trans('validation.attributes.order_code') }}:</b> {{ $orderCode }}
+                            </p>
+                            <p>
+                                <b class="text-capitalize">{{ trans('validation.attributes.name') }}:</b> {{ $orderInfor->name }}
+                            </p>
+                            <p>
+                                <b class="text-capitalize">{{ trans('validation.attributes.email') }}:</b> {{ $orderInfor->email }}
+                            </p>
+                            <p>
+                                <b class="text-capitalize">{{ trans('validation.attributes.phone') }}:</b> {{ $orderInfor->phone }}
+                            </p>
+                            <p>
+                                <b class="text-capitalize">{{ trans('validation.attributes.address') }}:</b> {{ $orderInfor->address }}
+                            </p>
+                            <p>
+                                <b class="text-capitalize">{{ trans('validation.attributes.city') }}:</b> {{ $orderInfor->city->name }}
+                            </p>
                         </div>
                     @endif
                 </div>
