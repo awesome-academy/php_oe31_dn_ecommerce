@@ -109,4 +109,6 @@ return [
     'status_user_lock' => 'Your account is currently locked.',
     'admin_lte_3' => 'Admin Lte 3',
     'cancel' => 'Cancel',
+    'cart_product_exists' => 'This product has been added to the cart',
+    'not_add_product_cart' => 'This product can\'t not add to the cart',
 ];

@@ -109,4 +109,6 @@ return [
     'status_user_lock' => 'Tài khoản của bạn hiện đang bị khóa.',
     'admin_lte_3' => 'Admin Lte 3',
     'cancel' => 'Hủy',
+    'cart_product_exists' => 'Sản phẩm này đã được thêm vào giỏ hàng của bạn',
+    'not_add_product_cart' => 'Không thể thêm sản phẩm này vào giỏ hàng',
 ];
