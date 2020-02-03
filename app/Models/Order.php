@@ -37,6 +37,14 @@ class Order extends Model
     }
 
     /**
+     * Get the order informations associated with the order.
+     */
+    public function order_infor()
+    {
+        return $this->hasOne(OrderInfor::class);
+    }
+
+    /**
      * @param $date
      * @return string
      */

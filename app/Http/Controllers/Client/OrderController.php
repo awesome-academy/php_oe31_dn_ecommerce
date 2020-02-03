@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Http\Requests\OrderInforRequest;
+use App\Models\OrderInfor;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -36,16 +38,27 @@ class OrderController extends Controller
     }
 
     /**
+     * @param OrderInforRequest $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(OrderInforRequest $request)
     {
         if (!Session::has('cart')) {
             return view('client.orders.index');
         }
+
+        $orderInfor = new OrderInfor();
+        $orderInfor->name = $request->name;
+        $orderInfor->address = $request->address;
+        $orderInfor->phone = $request->phone;
+        $orderInfor->email = $request->email;
+        $orderInfor->city_id = $request->city;
+        $orderInfor->save();
+
         $cart = Session::get('cart');
         $order = new Order();
         $order->user_id = Auth::user()->id;
+        $order->order_infor_id = $orderInfor->id;
         $order->status = Order::PENDING;
         $order->order_code = Str::random(10);
         $order->total_price = $cart->totalPrice;
@@ -66,7 +79,8 @@ class OrderController extends Controller
 
         return view('client.orders.index', [
             'orderSuccess' => trans('custome.order_success'),
-            'orderCode' => trans('custome.order_code') . ": " . $order->order_code,
+            'orderInfor' => $orderInfor,
+            'orderCode' => $order->order_code,
             'products' => $cart->items,
         ]);
     }
