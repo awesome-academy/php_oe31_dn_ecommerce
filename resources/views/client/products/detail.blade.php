@@ -133,7 +133,7 @@
                         <div class="list-cmt-item py-2">
                             <div class="user-name">
                                 <p class="mb-0">
-                                    {{ $rt->user->name }} - <span>{{ date_format($rt->created_at, 'd-m-Y H:i:s') }}</span>
+                                    {{ $rt->user->name }} - <span>{{ $rt->created_at }}</span>
                                 </p>
                             </div>
                             <div class="content">
@@ -159,7 +159,7 @@
                         <div class="list-cmt-item py-2">
                             <div class="user-name">
                                 <p class="mb-0">
-                                    {{ $cmt->user->name }} - <span>{{ date_format($cmt->created_at, 'd-m-Y H:i:s') }}</span>
+                                    {{ $cmt->user->name }} - <span>{{ $cmt->created_at }}</span>
                                 </p>
                             </div>
                             <div class="content">
