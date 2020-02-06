@@ -14,6 +14,8 @@ class OrderInfor extends Model
         'city_id',
     ];
 
+    protected $table = 'order_infors';
+
     /**
      * Get the order that owns the order information.
      */

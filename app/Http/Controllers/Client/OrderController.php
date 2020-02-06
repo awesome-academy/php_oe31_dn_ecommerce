@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Client;
 use App\Http\Requests\OrderInforRequest;
 use App\Models\OrderInfor;
 use App\Repositories\Order\OrderRepositoryInterface;
+use App\Repositories\OrderDetail\OrderDetailRepositoryInterface;
+use App\Repositories\OrderInfor\OrderInforRepositoryInterface;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -20,11 +22,17 @@ use Illuminate\Support\Facades\Session;
 class OrderController extends Controller
 {
     protected $orderRepo;
+    protected $orderInforRepo;
+    protected $orderDetailRepo;
 
-    public function __construct(OrderRepositoryInterface $orderRepo)
+    public function __construct(OrderRepositoryInterface $orderRepo, OrderInforRepositoryInterface $orderInforRepo,
+        OrderDetailRepositoryInterface $orderDetailRepo
+    )
     {
         $this->middleware('guest');
         $this->orderRepo = $orderRepo;
+        $this->orderInforRepo = $orderInforRepo;
+        $this->orderDetailRepo = $orderDetailRepo;
     }
 
     /**
@@ -50,34 +58,36 @@ class OrderController extends Controller
         if (!Session::has('cart')) {
             return view('client.orders.index');
         }
-
-        $orderInfor = new OrderInfor();
-        $orderInfor->name = $request->name;
-        $orderInfor->address = $request->address;
-        $orderInfor->phone = $request->phone;
-        $orderInfor->email = $request->email;
-        $orderInfor->city_id = $request->city;
-        $orderInfor->save();
-
+        $orderInfor = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'address' => $request->address,
+            'city_id' => $request->city,
+        ];
+        $orderInfor = $this->orderInforRepo->create($orderInfor);
         $cart = Session::get('cart');
-        $order = new Order();
-        $order->user_id = Auth::user()->id;
-        $order->order_infor_id = $orderInfor->id;
-        $order->status = Order::PENDING;
-        $order->order_code = Str::random(10);
-        $order->total_price = $cart->totalPrice;
-        $order->save();
+
+        $order = [
+            'user_id' => Auth::user()->id,
+            'order_infor_id' => $orderInfor->id,
+            'status' => Order::PENDING,
+            'order_code' => Str::random(10),
+            'total_price' => $cart->totalPrice,
+        ];
+        $order = $this->orderRepo->create($order);
 
         foreach ($cart->items as $item) {
             $product = Product::findOrFail($item['item']->id);
             $product->quantity -= $item['qty'];
             $product->save();
 
-            OrderDetail::create([
+            $orderDetail = [
                 'order_id' => $order->id,
                 'product_id' => $item['item']->id,
                 'quantity' => $item['qty'],
-            ]);
+            ];
+            $this->orderDetailRepo->create($orderDetail);
         }
         Session::forget('cart');
 
