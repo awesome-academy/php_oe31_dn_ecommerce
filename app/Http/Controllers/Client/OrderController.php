@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Requests\OrderInforRequest;
 use App\Models\OrderInfor;
+use App\Repositories\Order\OrderRepositoryInterface;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -18,9 +19,12 @@ use Illuminate\Support\Facades\Session;
 
 class OrderController extends Controller
 {
-    public function __construct()
+    protected $orderRepo;
+
+    public function __construct(OrderRepositoryInterface $orderRepo)
     {
         $this->middleware('guest');
+        $this->orderRepo = $orderRepo;
     }
 
     /**
@@ -91,7 +95,7 @@ class OrderController extends Controller
     public function histories()
     {
         $numPaginate = config('custome.paginate_history_order');
-        $orders = Order::where('user_id', '=', auth()->user()->id)->paginate($numPaginate);
+        $orders = $this->orderRepo->getOrderByUserId($numPaginate);
 
         return view('client.orders.histories', ['orders' => $orders]);
     }
@@ -104,154 +108,9 @@ class OrderController extends Controller
     public function detail($id)
     {
         try {
-            $order = Order::findOrFail($id);
+            $order = $this->orderRepo->findOrFail($id);
 
             return view('client.orders.detail', ['order' => $order]);
-        } catch (ModelNotFoundException $ex) {
-            throw new Exception($ex->getMessage());
-        }
-    }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws Exception
-     */
-    public function delete($id)
-    {
-        try {
-            $order = Order::findOrFail($id);
-            $order->delete();
-
-            return redirect()->back();
-        } catch (ModelNotFoundException $ex) {
-            throw new Exception($ex->getMessage());
-        }
-    }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws Exception
-     */
-    public function increaseOne($id)
-    {
-        try {
-            $orderDetail = OrderDetail::findOrFail($id);
-            $product = Product::findOrFail($orderDetail->product->id);
-            $order = Order::findOrFail($orderDetail->order->id);
-            if ($order->status == Order::SUCCESS) {
-                return redirect()->back()->with(['notEditOrder' => trans('custome.not_edit_order')]);
-            }
-
-            $quantityCurrent = $orderDetail->product->quantity;
-            $quantityOrder = $orderDetail->quantity;
-            $currentPrice = $order->total_price;
-
-            if ($quantityCurrent <= $quantityOrder) {
-                return redirect()->back()
-                    ->with(['notAddProduct' => trans('custome.not_add_product', [
-                            'quantity' => $orderDetail->product->quantity,
-                            'name' => $orderDetail->product->name,
-                        ])
-                    ]);
-            } else {
-                $orderDetail->quantity++;
-                $quantityOrder++;
-                if ($orderDetail->product->sale_price != null) {
-                    $order->total_price += $orderDetail->product->sale_price;
-                } else {
-                    $order->total_price += $orderDetail->product->price;
-                }
-                $orderDetail->save();
-                $order->save();
-                $product->quantity--;
-                $product->save();
-
-                return redirect()->back();
-            }
-        } catch (ModelNotFoundException $ex) {
-            throw new Exception($ex->getMessage());
-        }
-    }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws Exception
-     */
-    public function reduceOne($id)
-    {
-        try {
-            $orderDetail = OrderDetail::findOrFail($id);
-            $product = Product::findOrFail($orderDetail->product->id);
-            $order = Order::findOrFail($orderDetail->order->id);
-
-            if ($order->status == Order::SUCCESS) {
-                return redirect()->back()->with(['notEditOrder' => trans('custome.not_edit_order')]);
-            }
-            $quantityOrder = $orderDetail->quantity;
-            $orderDetail->quantity--;
-            $newPrice = $order->total_price;
-
-            if ($orderDetail->product->sale_price != null) {
-                $newPrice -= $orderDetail->product->sale_price;
-            } else {
-                $newPrice -= $orderDetail->product->price;
-            }
-
-            if ($orderDetail->quantity == 0) {
-                $orderDetail->delete();
-            } else {
-                $orderDetail->save();
-            }
-
-            if ($newPrice == config('custome.count_item')
-                || count($order->order_details) <= config('custome.count_item')) {
-                $order->delete();
-
-                return redirect()->route('client.orders.histories');
-            } else {
-                $order->total_price = $newPrice;
-                $order->save();
-            }
-            $product->quantity++;
-            $product->save();
-
-            return redirect()->back();
-        } catch (ModelNotFoundException $ex) {
-            throw new Exception($ex->getMessage());
-        }
-    }
-
-    public function removeItem($id)
-    {
-        try {
-            $orderDetail = OrderDetail::findOrFail($id);
-            $product = Product::findOrFail($orderDetail->product->id);
-            $order = Order::findOrFail($orderDetail->order->id);
-
-            if ($order->status == Order::SUCCESS) {
-                return redirect()->back()->with(['notEditOrder' => trans('custome.not_edit_order')]);
-            }
-
-            if ($orderDetail->product->sale_price != null) {
-                $order->total_price -= ($orderDetail->quantity * $orderDetail->product->sale_price);
-            } else {
-                $order->total_price -= ($orderDetail->quantity * $orderDetail->product->price);
-            }
-            $order->save();
-            $orderDetail->delete();
-
-            if ($order->total_price == 0) {
-                $order->delete();
-
-                return redirect()->route('client.orders.histories');
-            } else {
-                $order->save();
-
-                return redirect()->back();
-            }
         } catch (ModelNotFoundException $ex) {
             throw new Exception($ex->getMessage());
         }

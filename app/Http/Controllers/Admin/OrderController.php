@@ -3,20 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Order;
+use App\Repositories\Order\OrderRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
+    protected $orderRepo;
+
+    public function __construct(OrderRepositoryInterface $orderRepo)
+    {
+        $this->orderRepo = $orderRepo;
+    }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
         $paginate = config('custome.paginate_pro');
-        $order = Order::orderBy('created_at', 'DESC')->paginate($paginate);
+        $orders = $this->orderRepo->paginate('created_at', 'DESC', $paginate);
 
-        return view('admin.orders.index', ['orders' => $order]);
+        return view('admin.orders.index', ['orders' => $orders]);
     }
 
     /**
@@ -27,7 +35,7 @@ class OrderController extends Controller
     public function show($id)
     {
         try {
-            $order = Order::findOrFail($id);
+            $order = $this->orderRepo->findOrFail($id);
 
             return view('admin.orders.detail', ['order' => $order]);
         } catch (ModelNotFoundException $ex) {
@@ -43,10 +51,9 @@ class OrderController extends Controller
     public function delete($id)
     {
         try {
-            $order = Order::findOrFail($id);
-            $order->delete();
-
-            return redirect()->back();
+            if ($this->orderRepo->delete($id)) {
+                return redirect()->back();
+            }
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
@@ -60,11 +67,10 @@ class OrderController extends Controller
     public function changeSuccess($id)
     {
         try {
-            $order = Order::findOrFail($id);
-            $order->status = Order::SUCCESS;
-            $order->save();
-
-            return redirect()->back();
+            $attributes['status'] = Order::SUCCESS;
+            if ($this->orderRepo->update($id, $attributes)) {
+                return redirect()->back();
+            }
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
@@ -78,11 +84,10 @@ class OrderController extends Controller
     public function changePending($id)
     {
         try {
-            $order = Order::findOrFail($id);
-            $order->status = Order::PENDING;
-            $order->save();
-
-            return redirect()->back();
+            $attributes['status'] = Order::PENDING;
+            if ($this->orderRepo->update($id, $attributes)) {
+                return redirect()->back();
+            }
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
@@ -96,11 +101,10 @@ class OrderController extends Controller
     public function changeCancel($id)
     {
         try {
-            $order = Order::findOrFail($id);
-            $order->status = Order::CANCEL;
-            $order->save();
-
-            return redirect()->back();
+            $attributes['status'] = Order::CANCEL;
+            if ($this->orderRepo->update($id, $attributes)) {
+                return redirect()->back();
+            }
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
