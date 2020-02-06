@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\Category\CategoryRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(
+            \App\Repositories\Category\CategoryRepositoryInterface::class,
+            \App\Repositories\Category\CategoryRepository::class
+        );
+
+        $this->app->singleton(
+            \App\Repositories\Comment\CommentRepositoryInterface::class,
+            \App\Repositories\Comment\CommentRepository::class
+        );
     }
 
     /**

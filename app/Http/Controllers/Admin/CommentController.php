@@ -3,18 +3,26 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Comment;
+use App\Repositories\Comment\CommentRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\Controller;
 
 class CommentController extends Controller
 {
+    protected $commentRepo;
+
+    public function __construct(CommentRepositoryInterface $commentRepo)
+    {
+        $this->commentRepo = $commentRepo;
+    }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
         $paginate = config('custome.paginate_suggest');
-        $comments = Comment::orderBy('created_at', 'DESC')->paginate($paginate);
+        $comments = $this->commentRepo->paginate('created_at', 'DESC', $paginate);
 
         return view('admin.comments.index', ['comments' => $comments]);
     }
@@ -27,11 +35,10 @@ class CommentController extends Controller
     public function active($id)
     {
         try {
-            $comment = Comment::findOrFail($id);
-            $comment->status = Comment::ACTIVE;
-            $comment->save();
-
-            return redirect()->back();
+            $attributes['status'] = Comment::ACTIVE;
+            if ($this->commentRepo->update($id, $attributes)) {
+                return redirect()->back();
+            }
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
@@ -45,11 +52,10 @@ class CommentController extends Controller
     public function lock($id)
     {
         try {
-            $comment = Comment::findOrFail($id);
-            $comment->status = Comment::BLOCK;
-            $comment->save();
-
-            return redirect()->back();
+            $attributes['status'] = Comment::BLOCK;
+            if ($this->commentRepo->update($id, $attributes)) {
+                return redirect()->back();
+            }
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
@@ -63,10 +69,9 @@ class CommentController extends Controller
     public function delete($id)
     {
         try {
-            $comment = Comment::findOrFail($id);
-            $comment->delete();
-
-            return redirect()->back();
+            if($this->commentRepo->delete($id)) {
+                return redirect()->back();
+            }
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
