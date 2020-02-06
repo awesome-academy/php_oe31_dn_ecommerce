@@ -5,20 +5,28 @@ namespace App\Http\Controllers\Client;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\RatingRequest;
 use App\Models\Comment;
+use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Rating;
+use App\Repositories\Comment\CommentRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Helpers\FilterHelper;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function __construct()
+    protected $commentRepo;
+
+    public function __construct(CommentRepository $commentRepo)
     {
-        $this->middleware('auth')->only(['comment', 'rating']);
+        $this->middleware('auth')->only(['comment', 'rating', 'getEditComment', 'postEditComment']);
+        $this->middleware('check-user-comment')->only(['getEditComment', 'postEditComment']);
+
+        $this->commentRepo = $commentRepo;
     }
 
     /**
@@ -95,13 +103,38 @@ class ProductController extends Controller
         try {
             $product = Product::findOrFail($id);
             Comment::create([
-                'user_id' => auth()->user()->id,
+                'user_id' => Auth::user()->id,
                 'product_id' => $id,
                 'content' => $request->content,
                 'status' => Comment::ACTIVE,
             ]);
 
             return redirect()->back();
+        } catch (ModelNotFoundException $ex) {
+            throw new \Exception($ex->getMessage());
+        }
+    }
+
+    public function getEditComment($id)
+    {
+        try {
+            $comment = $this->commentRepo->findOrFail($id);
+
+            return view('client.products.comments.edit', ['comment' => $comment]);
+        } catch (ModelNotFoundException $ex) {
+            throw new \Exception($ex->getMessage());
+        }
+    }
+
+    public function postEditComment(CommentRequest $request)
+    {
+        try {
+            $comment = $this->commentRepo->findOrFail($request->id);
+            $attributes['content'] = $request->content;
+            if ($this->commentRepo->update($request->id, $attributes)) {
+                return redirect(route('client.products.detail', ['id' => $comment->product->id]));
+            }
+
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
@@ -115,10 +148,16 @@ class ProductController extends Controller
                 ->join('orders', 'order_details.order_id', '=', 'orders.id')
                 ->join('users', 'orders.user_id', '=', 'users.id')
                 ->where('orders.user_id', '=', auth()->user()->id)
+                ->where('orders.status', '=', Order::SUCCESS)
                 ->where('order_details.product_id', '=', $id)
                 ->count();
+            $checkRating = Rating::where('product_id', '=', $id)
+                ->where('user_id', '=', auth()->user()->id)
+                ->count();
 
-            if ($checkOrder > config('custome.count_item')) {
+            if ($checkRating >= config('custome.count_item_1')) {
+                return redirect()->back()->with('statusRated', trans('custome.status_rated_product'));
+            } else if ($checkOrder == config('custome.count_item_1') && $checkRating < config('custome.count_item_1')) {
                 Rating::create([
                     'user_id' => auth()->user()->id,
                     'product_id' => $id,
