@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Repositories\Category\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -9,6 +10,13 @@ use App\Models\Product;
 
 class CategoryController extends Controller
 {
+    protected $categoryRepo;
+
+    public function __construct(CategoryRepositoryInterface $categoryRepo)
+    {
+        $this->categoryRepo = $categoryRepo;
+    }
+
     /**
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -17,7 +25,7 @@ class CategoryController extends Controller
     public function detail($id)
     {
         try {
-            $category = Category::findOrFail($id);
+            $category = $this->categoryRepo->findOrFail($id);
             $arr_id_child = [];
             $numPagination = config('custome.paginate_pro');
 
@@ -45,7 +53,7 @@ class CategoryController extends Controller
     public function filter($id, $filterBy)
     {
         try {
-            $category = Category::findOrFail($id);
+            $category = $this->categoryRepo->findOrFail($id);
             $arr_id_child = [];
             $numPagination = config('custome.paginate_pro');
             $products = Product::class;

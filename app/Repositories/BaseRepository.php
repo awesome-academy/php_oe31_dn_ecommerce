@@ -111,4 +111,9 @@ abstract class BaseRepository implements RepositoryInterface
 
         return $this->model->paginate($paginate);
     }
+
+    public function orderBy($colum, $orderBy)
+    {
+        return $this->model->orderBy($colum, $orderBy)->get();
+    }
 }

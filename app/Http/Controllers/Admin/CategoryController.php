@@ -4,19 +4,27 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Repositories\Category\CategoryRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
+    protected $categoryRepo;
+
+    public function __construct(CategoryRepositoryInterface $categoryRepo)
+    {
+        $this->categoryRepo = $categoryRepo;
+    }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
         $paginate = config('custome.paginate_pro');
-        $categories = Category::paginate($paginate);
+        $categories = $this->categoryRepo->paginate(null, null, $paginate);
 
         return view('admin.categories.index', ['categories' => $categories]);
     }
@@ -42,7 +50,7 @@ class CategoryController extends Controller
         if ($request->has('parent')) {
             $data['parent_id'] = $request->parent;
         }
-        Category::create($data);
+        $this->categoryRepo->create($data);
 
         return redirect()->back()->with('createSuccess', trans('custome.create_success'));
     }
@@ -55,7 +63,7 @@ class CategoryController extends Controller
     public function show($id)
     {
         try {
-            $category = Category::findOrFail($id);
+            $category = $this->categoryRepo->findOrFail($id);
 
             return view('admin.categories.detail', ['category' => $category]);
         } catch (ModelNotFoundException $ex) {
@@ -83,19 +91,19 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, $id)
     {
         try {
-            $category = Category::findOrFail($id);
-            $category->name = $request->name;
+            $category = $this->categoryRepo->findOrFail($id);
+            $attributes['name'] = $request->name;
             if ($request->has('parent') && $request->parent == $category->id) {
                 return redirect()->back()->with('status', trans('custome.not_add_category_parent'));
             } else {
-                $category->parent_id = $request->parent;
+                $attributes['parent_id'] = $request->parent;
             }
             if ($request->has('description')) {
-                $category->description = $request->description;
+                $attributes['description'] = $request->description;
             }
-            $category->save();
-
-            return redirect()->back()->with('updateSuccess', trans('custome.update_success'));
+            if ($this->categoryRepo->update($id, $attributes)) {
+                return redirect()->back()->with('updateSuccess', trans('custome.update_success'));
+            }
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
@@ -109,10 +117,9 @@ class CategoryController extends Controller
     public function delete($id)
     {
         try {
-            $category = Category::findOrFail($id);
-            $category->delete();
-
-            return redirect()->back();
+            if ($this->categoryRepo->delete($id)) {
+                return redirect()->back();
+            }
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
