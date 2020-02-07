@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckUserOwnComment;
 use GuzzleHttp\Middleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -64,6 +65,7 @@ class Kernel extends HttpKernel
         'admin-auth' => \App\Http\Middleware\AdminCheck::class,
         'admin-redirect' => \App\Http\Middleware\AdminRedirect::class,
         'check-product-qty' => \App\Http\Middleware\CheckProductQuantity::class,
+        'check-user-comment' => \App\Http\Middleware\CheckUserOwnComment::class,
     ];
 
     /**

@@ -111,4 +111,6 @@ return [
     'cancel' => 'Hủy',
     'cart_product_exists' => 'Sản phẩm này đã được thêm vào giỏ hàng của bạn',
     'not_add_product_cart' => 'Không thể thêm sản phẩm này vào giỏ hàng',
+    'status_rated_product' => 'Bạn đã có đánh giá về sản phẩm này',
+    'edit_comment' => 'Chỉnh sửa bình luận',
 ];

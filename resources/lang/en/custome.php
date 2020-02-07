@@ -111,4 +111,6 @@ return [
     'cancel' => 'Cancel',
     'cart_product_exists' => 'This product has been added to the cart',
     'not_add_product_cart' => 'This product can\'t not add to the cart',
+    'status_rated_product' => 'You have had rating about this product',
+    'edit_comment' => 'Edit comment',
 ];
