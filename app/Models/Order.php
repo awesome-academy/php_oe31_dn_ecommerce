@@ -9,8 +9,10 @@ class Order extends Model
 {
     protected $fillable = [
         'user_id',
+        'order_infor_id',
         'status',
         'order_code',
+        'total_price',
     ];
 
     /**
@@ -39,9 +41,9 @@ class Order extends Model
     /**
      * Get the order informations associated with the order.
      */
-    public function order_infor()
+    public function order_infors()
     {
-        return $this->hasOne(OrderInfor::class);
+        return $this->hasOne(OrderInfor::class, 'id', 'order_infor_id');
     }
 
     /**

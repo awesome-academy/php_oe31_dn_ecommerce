@@ -28,6 +28,16 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Order\OrderRepositoryInterface::class,
             \App\Repositories\Order\OrderRepository::class
         );
+
+        $this->app->singleton(
+            \App\Repositories\OrderDetail\OrderDetailRepositoryInterface::class,
+            \App\Repositories\OrderDetail\OrderDetailRepository::class
+        );
+
+        $this->app->singleton(
+            \App\Repositories\OrderInfor\OrderInforRepositoryInterface::class,
+            \App\Repositories\OrderInfor\OrderInforRepository::class
+        );
     }
 
     /**
