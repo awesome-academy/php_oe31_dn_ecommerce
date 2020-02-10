@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Models\Product;
-use App\Models\Trend;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\Trend\TrendRepositoryInterface;
 use Illuminate\Http\Request;

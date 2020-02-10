@@ -4,17 +4,12 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\RatingRequest;
-use App\Models\Comment;
-use App\Models\Order;
-use App\Models\OrderDetail;
-use App\Models\Rating;
 use App\Repositories\Comment\CommentRepository;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\Rating\RatingRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Product;
 use App\Helpers\FilterHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

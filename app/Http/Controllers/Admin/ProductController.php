@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
-use App\Models\Image;
-use App\Models\Product;
 use App\Repositories\Image\ImageRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
