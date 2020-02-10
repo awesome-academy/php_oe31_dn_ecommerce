@@ -5,15 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\LoginRequest;
 use App\Models\Role;
 use App\Models\User;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function __construct()
+    protected $userRepo;
+
+    public function __construct(UserRepositoryInterface $userRepo)
     {
         $this->middleware('admin-redirect')->except('logout');
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -31,7 +35,7 @@ class LoginController extends Controller
     public function loginPost(LoginRequest $request)
     {
         $credentials = $request->only(['email', 'password']);
-        $user = User::where('email', '=', $request->email)->first();
+        $user = $this->userRepo->getUserByEmail($request->email);
         if ($user == null) {
             return redirect()->back()->with('status', trans('custome.fail_signin'));
         } else {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,10 +36,14 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+
+    protected $userRepo;
+
+    public function __construct(UserRepositoryInterface $userRepo)
     {
         $this->middleware('guest')
             ->except(['logout', 'index', 'login']);
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -56,7 +61,7 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
         $credentials = $request->only(['email', 'password']);
-        $user = User::where('email', '=', $request->email)->first();
+        $user = $this->userRepo->getUserByEmail($request->email);
         if ($user == null) {
             return redirect()->back()->with('status', trans('custome.fail_signin'));
         }

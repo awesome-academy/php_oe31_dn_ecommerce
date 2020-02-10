@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Models\Role;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -38,9 +39,13 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+
+    protected $userRepo;
+
+    public function __construct(UserRepositoryInterface $userRepo)
     {
         $this->middleware('guest')->except('index', 'create');
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -57,7 +62,7 @@ class RegisterController extends Controller
      */
     protected function create(RegisterRequest $request)
     {
-        $data = [
+        $user = [
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,
@@ -68,13 +73,12 @@ class RegisterController extends Controller
             'status' => User::ACTIVE,
         ];
         if ($request->has('gender')) {
-            $data['gender'] = $request->gender;
+            $user['gender'] = $request->gender;
         }
         if ($request->has('gender')) {
-            $data['birthdate'] = $request->birthdate;
+            $user['birthdate'] = $request->birthdate;
         }
-
-        User::create($data);
+        $this->userRepo->create($user);
 
         return redirect()->route('client.login.get')
             ->with('registerSuccess', trans('custome.sign_up_success'));

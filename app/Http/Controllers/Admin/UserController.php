@@ -3,19 +3,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+    protected $userRepo;
+
+    public function __construct(UserRepositoryInterface $userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
         $paginate = config('custome.paginate_pro');
-        $user = User::paginate($paginate);
+        $user = $this->userRepo->paginate(null, null, $paginate);
 
         return view('admin.users.index', ['users' => $user]);
     }
@@ -29,11 +37,10 @@ class UserController extends Controller
     public function lock($id)
     {
         try {
-            $user = User::findOrFail($id);
-            $user->status = User::LOCK;
-            $user->save();
-
-            return redirect()->back();
+            $user['status'] = User::LOCK;
+            if ($this->userRepo->update($id, $user)) {
+                return redirect()->back();
+            }
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
@@ -47,11 +54,10 @@ class UserController extends Controller
     public function active($id)
     {
         try {
-            $user = User::findOrFail($id);
-            $user->status = User::ACTIVE;
-            $user->save();
-
-            return redirect()->back();
+            $user['status'] = User::ACTIVE;
+            if ($this->userRepo->update($id, $user)) {
+                return redirect()->back();
+            }
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
