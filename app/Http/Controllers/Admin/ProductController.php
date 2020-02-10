@@ -6,6 +6,8 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\Image;
 use App\Models\Product;
+use App\Repositories\Image\ImageRepositoryInterface;
+use App\Repositories\Product\ProductRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,13 +15,22 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ProductController extends Controller
 {
+    protected $productRepo;
+    protected $imageRepo;
+
+    public function __construct(ProductRepositoryInterface $productRepo, ImageRepositoryInterface $imageRepo)
+    {
+        $this->productRepo = $productRepo;
+        $this->imageRepo = $imageRepo;
+    }
+
     /**
-     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
         $paginate = config('custome.paginate_pro');
-        $products = Product::orderBy('id', 'DESC')->paginate($paginate);
+        $products = $this->productRepo->paginate('id', 'DESC', $paginate);
 
         return view('admin.products.index', ['products' => $products]);
     }
@@ -40,7 +51,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         try {
-            $storaPath = storage_path(config('custome.storage_path_product'));
+            $storaPath = storage_path(config('custome.path_storage_product'));
             $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
             $data = [
                 'name' => $request->name,
@@ -56,10 +67,11 @@ class ProductController extends Controller
             if ($request->has('sale_percent')) {
                 $data['sale_percent'] = $request->sale_percent;
             }
-            $product = Product::create($data);
-            $product->images()->create([
+            $product = $this->productRepo->create($data);
+            $this->imageRepo->create([
                 'name' => $imageName,
                 'type' => Image::FIRST,
+                'product_id' => $product->id,
             ]);
 
             return redirect()->back()->with('createSuccess', trans('custome.create_success'));
@@ -76,7 +88,7 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::findOrFail($id);
+            $product = $this->productRepo->findOrFail($id);
 
             return view('admin.products.detail', ['product' => $product]);
         } catch (ModelNotFoundException $ex) {
@@ -87,26 +99,28 @@ class ProductController extends Controller
     public function update(ProductUpdateRequest $request, $id)
     {
         try {
-            $product = Product::findOrFail($id);
-            $product->name = $request->name;
-            $product->description = $request->description;
-            $product->price = $request->price;
-            $product->quantity = $request->quantity;
+            $product = [
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,
+                'quantity' => $request->quantity,
+            ];
             if ($request->has('sale_price')) {
-                $product->sale_price = $request->sale_price;
+                $product['sale_price'] = $request->sale_price;
             }
             if ($request->has('sale_percent')) {
-                $product->sale_percent = $request->sale_percent;
+                $product['sale_percent'] = $request->sale_percent;
             }
             if ($request->hasFile('image')) {
-                $storaPath = storage_path(config('custome.storage_path_product'));
+                $storaPath = storage_path(config('custome.path_storage_product'));
                 $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
-                $image = Image::where('product_id', '=', $id)->where('type', '=', Image::FIRST)->first();
-                $image->name = $imageName;
+                $image = $this->imageRepo->getFirstImageByProductId($id);
+                $imageUpdate = ['name' => $imageName];
+
+                $this->imageRepo->update($image->id, $imageUpdate);
                 request()->image->move($storaPath, $imageName);
-                $image->save();
             }
-            $product->save();
+            $this->productRepo->update($id, $product);
 
             return redirect()->back()->with('updateSuccess', trans('custome.update_success'));
         } catch (ModelNotFoundException $ex) {
@@ -122,10 +136,9 @@ class ProductController extends Controller
     public function delete($id)
     {
         try {
-            $product = Product::findOrFail($id);
-            $product->delete();
-
-            return redirect()->back();
+            if ($this->productRepo->delete($id)) {
+                return redirect()->back();
+            }
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
