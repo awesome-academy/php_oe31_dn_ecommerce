@@ -113,4 +113,9 @@ return [
     'not_add_product_cart' => 'This product can\'t not add to the cart',
     'status_rated_product' => 'You have had rating about this product',
     'edit_comment' => 'Edit comment',
+    'revenue' => 'Revenue',
+    'revenue_get' => 'Revenue: :time',
+    'no_revenue' => 'No revenue',
+    'get_revenue_current_month' => 'The revenue of current month',
+    'required_select_year' => 'Please select the year',
 ];

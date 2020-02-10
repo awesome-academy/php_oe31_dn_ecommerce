@@ -36,6 +36,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
         Route::get('/comment/delete/{id}', 'CommentController@delete')->name('admin.comment.delete');
         Route::get('/comment/active/{id}', 'CommentController@active')->name('admin.comment.active');
         Route::get('/comment/lock/{id}', 'CommentController@lock')->name('admin.comment.lock');
+        Route::get('revenue', 'RevenueController@index')->name('admin.revenue.get');
+        Route::get('revenue/current-month', 'RevenueController@getCurrentMonth')->name('admin.revenue.current_month');
+        Route::get('revenue/time', 'RevenueController@filterRevenue')->name('admin.revenue.filter');
     });
 });
 
@@ -52,8 +55,9 @@ Route::group(['namespace' => 'Client'], function () {
     Route::get('/products', 'ProductController@index')->name('client.products.index');
     Route::get('/products/filter/{filter_by}', 'ProductController@filter')->name('client.products.filter');
     Route::get('/product/{id}', 'ProductController@detail')->name('client.products.detail');
-    Route::get('/product/comment', 'ProductController@comment')->name('client.products.comment');
     Route::post('/product/comment/{id}', 'ProductController@comment')->name('client.products.comment');
+    Route::get('comment/edit/{id}', 'ProductController@getEditComment')->name('client.comment.edit');
+    Route::post('comment/edit', 'ProductController@postEditComment')->name('client.comment.edit.post');
     Route::post('/product/rating/{id}', 'ProductController@rating')->name('client.products.rating');
     Route::get('/suggest', 'SuggestController@suggestGet')->name('client.suggest.get');
     Route::post('/suggest', 'SuggestController@suggestPost')->name('client.suggest.post');
@@ -68,10 +72,6 @@ Route::group(['namespace' => 'Client'], function () {
     Route::post('/orders', 'OrderController@create')->name('client.orders.create');
     Route::get('/orders/histories', 'OrderController@histories')->name('client.orders.histories');
     Route::get('/orders/history/{id}', 'OrderController@detail')->name('client.orders.detail');
-    Route::get('/orders/history/increase-one/{id}', 'OrderController@increaseOne')->name('client.orders.increase');
-    Route::get('/orders/history/reduce-one/{id}', 'OrderController@reduceOne')->name('client.orders.reduce');
-    Route::get('/orders/history/remove-item/{id}', 'OrderController@removeItem')->name('client.orders.remove_item');
-    Route::get('/orders/delete/{id}', 'OrderController@delete')->name('client.orders.delete');
     Route::get('/user/profile', 'UserController@profile')->name('client.user.profile');
     Route::post('/user/update', 'UserController@update')->name('client.user.update');
     Route::get('/category/{id}/filter/{filter_by}', 'CategoryController@filter')->name('client.category.filter');

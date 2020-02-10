@@ -132,10 +132,26 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('comments.index') }}" class="nav-link text-capitalize">
+                            <i class="nav-icon fas fa-comment"></i>
+                            <p>
+                                {{ trans('custome.manage') }} {{ trans('custome.comment') }}
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('suggests.index') }}" class="nav-link text-capitalize">
                             <i class="nav-icon fas fa-lightbulb"></i>
                             <p>
                                 {{ trans('custome.manage') }} {{ trans('custome.suggest') }}
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.revenue.get') }}" class="nav-link text-capitalize">
+                            <i class="nav-icon fas fa-money-check-alt"></i>
+                            <p>
+                                {{ trans('custome.manage') }} {{ trans('custome.revenue') }}
                             </p>
                         </a>
                     </li>
