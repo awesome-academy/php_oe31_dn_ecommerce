@@ -9,6 +9,8 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Rating;
 use App\Repositories\Comment\CommentRepository;
+use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\Rating\RatingRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,13 +22,19 @@ use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
     protected $commentRepo;
+    protected $productRepo;
+    protected $ratingRepo;
 
-    public function __construct(CommentRepository $commentRepo)
+    public function __construct(CommentRepository $commentRepo, ProductRepositoryInterface $productRepo,
+        RatingRepositoryInterface $ratingRepo
+    )
     {
         $this->middleware('auth')->only(['comment', 'rating', 'getEditComment', 'postEditComment']);
         $this->middleware('check-user-comment')->only(['getEditComment', 'postEditComment']);
 
         $this->commentRepo = $commentRepo;
+        $this->productRepo = $productRepo;
+        $this->ratingRepo = $ratingRepo;
     }
 
     /**
@@ -35,7 +43,7 @@ class ProductController extends Controller
     public function index()
     {
         $numPagination = config('custome.paginate_pro');
-        $products = Product::paginate($numPagination);
+        $products = $this->productRepo->paginate('id', 'DESC', $numPagination);
 
         return view('client.products.index', ['products' => $products]);
     }
@@ -48,7 +56,7 @@ class ProductController extends Controller
     public function detail($id)
     {
         try {
-            $product = Product::findOrFail($id);
+            $product = $this->productRepo->findOrFail($id);
 
             return view('client.products.detail', ['product' => $product]);
         } catch (ModelNotFoundException $ex) {
@@ -64,30 +72,7 @@ class ProductController extends Controller
     {
         $products = Product::class;
         $numPagination = config('custome.paginate_pro');
-
-        switch ($filterBy) {
-            case config('custome.filter_by.price_ascending'):
-                $products = FilterHelper::filter($products, 'price', 'ASC');
-                break;
-            case config('custome.filter_by.price_descending'):
-                $products = FilterHelper::filter($products, 'price', 'DESC');
-                break;
-            case config('custome.filter_by.name_a_z'):
-                $products = FilterHelper::filter($products, 'name', 'ASC');
-                break;
-            case config('custome.filter_by.name_z_a'):
-                $products = FilterHelper::filter($products, 'name', 'DESC');
-                break;
-            case config('custome.filter_by.oldest'):
-                $products = FilterHelper::filter($products, 'id', 'ASC');
-                break;
-            case config('custome.filter_by.newest'):
-                $products = FilterHelper::filter($products, 'id', 'DESC');
-                break;
-            default:
-                abort(404);
-        }
-        $products = $products->paginate($numPagination);
+        $products = $this->productRepo->filter($filterBy, $numPagination);
 
         return view('client.products.filter', ['products' => $products, 'filterBy' => $filterBy]);
     }
@@ -143,27 +128,17 @@ class ProductController extends Controller
     public function rating(RatingRequest $request, $id)
     {
         try {
-            $product = Product::findOrFail($id);
-            $checkOrder = DB::table('order_details')
-                ->join('orders', 'order_details.order_id', '=', 'orders.id')
-                ->join('users', 'orders.user_id', '=', 'users.id')
-                ->where('orders.user_id', '=', auth()->user()->id)
-                ->where('orders.status', '=', Order::SUCCESS)
-                ->where('order_details.product_id', '=', $id)
-                ->count();
-            $checkRating = Rating::where('product_id', '=', $id)
-                ->where('user_id', '=', auth()->user()->id)
-                ->count();
+            $checkOrder = $this->ratingRepo->checkOrderSuccess($id);
+            $checkRating = $this->ratingRepo->checkUserRating($id);
 
             if ($checkRating >= config('custome.count_item_1')) {
                 return redirect()->back()->with('statusRated', trans('custome.status_rated_product'));
             } else if ($checkOrder == config('custome.count_item_1') && $checkRating < config('custome.count_item_1')) {
-                Rating::create([
+                $this->ratingRepo->create([
                     'user_id' => auth()->user()->id,
                     'product_id' => $id,
                     'star_number' => $request->star_number,
                 ]);
-
                 return redirect()->back()->with('ratingSuccess', trans('custome.rating_success'));
             } else {
                 return redirect()->back()->with('notRating', trans('custome.not_rating'));
