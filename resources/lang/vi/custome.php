@@ -113,4 +113,9 @@ return [
     'not_add_product_cart' => 'Không thể thêm sản phẩm này vào giỏ hàng',
     'status_rated_product' => 'Bạn đã có đánh giá về sản phẩm này',
     'edit_comment' => 'Chỉnh sửa bình luận',
+    'revenue' => 'Doanh thu',
+    'revenue_get' => 'Doanh thu: :time',
+    'no_revenue' => 'Không có doanh thu',
+    'get_revenue_current_month' => 'Danh thu của tháng hiện tại',
+    'required_select_year' => 'Vui lòng chọn thêm năm',
 ];
