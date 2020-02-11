@@ -123,4 +123,6 @@ return [
     'order_not_handle_week' => 'Danh sách đơn hàng chưa được xử lý trong tuần này',
     'view' => 'Xem',
     'no_order_pending_week' => 'Không có đơn hàng nào đang chờ xử lý trong tuần này',
+    'order_info' => 'Thông tin đơn hàng',
+    'mess_order_user_pending' => 'Đơn hàng của bạn đang chờ để được xử lý',
 ];

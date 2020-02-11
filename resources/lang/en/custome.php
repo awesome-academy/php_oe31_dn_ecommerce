@@ -123,4 +123,6 @@ return [
     'order_not_handle_week' => 'List orders is not handled',
     'view' => 'view',
     'no_order_pending_week' => 'No order is pending in this week',
+    'order_info' => 'Order information',
+    'mess_order_user_pending' => 'Your order waited to handle',
 ];

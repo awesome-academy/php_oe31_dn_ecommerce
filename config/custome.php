@@ -51,4 +51,6 @@ return [
         '11',
         '12'
     ],
+    'email_support' => 'support_team@gmail.com',
+    'cron_job_send_order' => '0 16 * * 4', //every 16h-friday
 ];
