@@ -13,6 +13,10 @@ use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Models\Cart;
+use App\Models\Order;
+use App\Models\Product;
+use Pusher\Pusher;
 
 class OrderController extends Controller
 {
@@ -48,6 +52,7 @@ class OrderController extends Controller
     /**
      * @param OrderInforRequest $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Pusher\PusherException
      */
     public function create(OrderInforRequest $request)
     {
@@ -86,6 +91,19 @@ class OrderController extends Controller
             $this->orderDetailRepo->create($orderDetail);
         }
         Session::forget('cart');
+        //order notify
+        $orderNotify = [
+            'id' => $order->id,
+            'user' => $order->user->name,
+            'created_at' => $order->created_at,
+        ];
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            ['encrypted' => true]
+        );
+        $pusher->trigger('OrderNotify', 'send-message', $orderNotify);
 
         return view('client.orders.index', [
             'orderSuccess' => trans('custome.order_success'),

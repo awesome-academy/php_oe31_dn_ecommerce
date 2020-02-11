@@ -4,50 +4,51 @@ $(document).ready(function () {
     }
 
     $('.lock-user').on('click', function (event) {
-        deleteConfirmItem($('meta[name="confirmActiveUser"]').attr('content'));
+        return confirm($('meta[name="confirmActiveUser"]').attr('content'));
     });
 
     $('.active-user').on('click', function (event) {
-        deleteConfirmItem($('meta[name="confirmActiveUser"]').attr('content'));
+        return confirm($('meta[name="confirmActiveUser"]').attr('content'));
     });
 
     $('.delete-category').on('click', function (event) {
-        deleteConfirmItem($('meta[name="confirmDeleteCate"]').attr('content'));
+        return confirm($('meta[name="confirmDeleteCate"]').attr('content'));
     });
 
     $('.delete-product').on('click', function (event) {
-        deleteConfirmItem($('meta[name="confirmDeleteProduct"]').attr('content'));
+        return confirm($('meta[name="confirmDeleteProduct"]').attr('content'));
     });
 
     $('.delete-order').on('click', function (event) {
-        deleteConfirmItem($('meta[name="confirmDeleteOrder"]').attr('content'));
+        return confirm($('meta[name="confirmDeleteOrder"]').attr('content'));
     });
 
     $('.order-change-pending').on('click', function (event) {
-        deleteConfirmItem($('meta[name="confirmOrderPending"]').attr('content'));
+        return confirm($('meta[name="confirmOrderPending"]').attr('content'));
     });
 
     $('.order-change-success').on('click', function (event) {
-        deleteConfirmItem($('meta[name="confirmOrderSuccess"]').attr('content'));
+        return confirm($('meta[name="confirmOrderSuccess"]').attr('content'));
     });
 
     $('.order-change-cancel').on('click', function (event) {
-        deleteConfirmItem($('meta[name="confirmOrderCancel"]').attr('content'));
+        return confirm($('meta[name="confirmOrderCancel"]').attr('content'));
     });
 
     $('.delete-suggest').on('click', function (event) {
-        deleteConfirmItem($('meta[name="confirmDeleteSuggest"]').attr('content'));
+        return confirm($('meta[name="confirmDeleteSuggest"]').attr('content'));
     });
 
     $('.delete-comment').on('click', function (event) {
-        deleteConfirmItem($('meta[name="confirmDeleteComment"]').attr('content'));
+        return confirm($('meta[name="confirmDeleteComment"]').attr('content'));
     });
+
     $('.active-comment').on('click', function (event) {
-        deleteConfirmItem($('meta[name="confirmActiveComment"]').attr('content'));
+        return confirm($('meta[name="confirmActiveComment"]').attr('content'));
     });
 
     $('.lock-comment').on('click', function (event) {
-        deleteConfirmItem($('meta[name="confirmLockComment"]').attr('content'));
+        return confirm($('meta[name="confirmLockComment"]').attr('content'));
     });
 
     //get and handle data
@@ -68,12 +69,12 @@ $(document).ready(function () {
         });
         return false;
     }
+    Chart.defaults.global.defaultFontSize = 15;
+    Chart.defaults.global.defaultFontColor = '#777';
     //call ajax to drwal chart
     statistic(function (data) {
         let myChart = document.getElementById('canvasUserSta').getContext('2d');
         // Global Options
-        Chart.defaults.global.defaultFontSize = 18;
-        Chart.defaults.global.defaultFontColor = '#777';
         let massPopChart = new Chart(myChart, {
             type: 'bar',
             data: {
@@ -118,5 +119,32 @@ $(document).ready(function () {
                 }
             }
         });
+    });
+
+    //order notify
+    var baseUrl = $('meta[name="baseUrl"]').attr('content');
+    var ordered = $('meta[name="orderedTrans"]').attr('content');
+    var notifications   = $('.notifications');
+    var notificationsCount  = parseInt($('#count-notification').text());
+    var notificationDropdown  = notifications.find('.dropdown-notifications');
+    Pusher.logToConsole = true;
+
+    var pusherAppKey = $('meta[name="pusherAppKey"]').attr('content');
+    var pusherAppCluster = $('meta[name="pusherCluster"]').attr('content');
+    var pusher = new Pusher(pusherAppKey, {
+        cluster: pusherAppCluster,
+        encrypted: true,
+    });
+
+    var channel = pusher.subscribe('OrderNotify');
+    channel.bind('send-message', function(data) {
+        var existingNotifications = notificationDropdown.html();
+        var newNotificationHtml =
+            `<a target="_blank" href="` + baseUrl + `/admin/orders/` + data.id
+            + `" class="dropdown-item">` + data.user + " " + ordered
+            + ` - ` + data.created_at + `</a>`;
+        notificationDropdown.append(newNotificationHtml);
+        notificationsCount += 1;
+        $('#count-notification').text(notificationsCount);
     });
 });
