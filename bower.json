@@ -18,6 +18,8 @@
   "dependencies": {
     "bootstrap": "4.3.1",
     "jquery": "3.4.1",
-    "bower_dev": "https://github.com/duongricky/bower_sun_p1.git"
+    "bower_dev": "https://github.com/duongricky/bower_sun_p1.git",
+    "chart.js": "^2.9.3",
+    "pusher-js": "pusher#4.3"
   }
 }

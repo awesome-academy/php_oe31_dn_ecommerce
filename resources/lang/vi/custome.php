@@ -118,4 +118,9 @@ return [
     'no_revenue' => 'Không có doanh thu',
     'get_revenue_current_month' => 'Danh thu của tháng hiện tại',
     'required_select_year' => 'Vui lòng chọn thêm năm',
+    'notifications' => 'Thông báo',
+    'ordered' => 'đã đặt hàng',
+    'order_not_handle_week' => 'Danh sách đơn hàng chưa được xử lý trong tuần này',
+    'view' => 'Xem',
+    'no_order_pending_week' => 'Không có đơn hàng nào đang chờ xử lý trong tuần này',
 ];

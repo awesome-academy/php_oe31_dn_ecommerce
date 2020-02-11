@@ -8,6 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @yield('meta-header')
+    <meta name="pusherAppKey" content="{{ env('PUSHER_APP_KEY') }}">
+    <meta name="pusherCluster" content="{{ env('PUSHER_APP_CLUSTER') }}">
+    <meta name="baseUrl" content="{{ url(route('client.home.index')) }}">
+    <meta name="orderedTrans" content="{{ trans('custome.ordered') }}">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('plugins/bower_dev/fontawesome-free/all.min.css')}} ">
@@ -19,7 +23,6 @@
     <link href="{{ asset('plugins/bower_dev/admin/css/fontSansPro.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
-
     @yield('style')
 
 </head>
@@ -36,8 +39,21 @@
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="{{ route('admin.home.index') }}" class="nav-link">Home</a>
             </li>
+
         </ul>
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto notifications">
+            <li class="nav-item dropdown mr-2">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-bell"></i>
+                    <span id="count-notification" class="badge badge-danger navbar-badge">
+                        {{ config('custome.count_item') }}
+                    </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-notifications">
+                    <p class="dropdown-item mb-0">{{ trans('custome.notifications') }}</p>
+                    <div class="dropdown-divider"></div>
+                </div>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.logout') }}">
                     {{ trans('custome.sign_out') }}
@@ -191,6 +207,7 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('plugins/bower_dev/admin/js/adminlte.min.js') }}"></script>
 <script src="{{ asset('plugins/chart.js/dist/Chart.min.js') }}"></script>
+<script src="{{ asset('plugins/pusher-js/dist/web/pusher.min.js') }}"></script>
 <script src="{{ asset('js/admin/admin.js') }}"></script>
 
 @yield('scripts')

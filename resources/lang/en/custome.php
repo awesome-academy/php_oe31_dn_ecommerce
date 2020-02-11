@@ -118,4 +118,9 @@ return [
     'no_revenue' => 'No revenue',
     'get_revenue_current_month' => 'The revenue of current month',
     'required_select_year' => 'Please select the year',
+    'notifications' => 'Notifications',
+    'ordered' => 'ordered',
+    'order_not_handle_week' => 'List orders is not handled',
+    'view' => 'view',
+    'no_order_pending_week' => 'No order is pending in this week',
 ];
