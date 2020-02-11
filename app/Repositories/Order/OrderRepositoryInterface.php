@@ -18,4 +18,10 @@ interface OrderRepositoryInterface
      * @return mixed
      */
     public function getByTime($month, $year);
+
+    /**
+     * Get orders that is not handled
+     * @return mixed
+     */
+    public function getOrderNotHandleWeek();
 }

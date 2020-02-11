@@ -4,6 +4,7 @@ namespace App\Repositories\Order;
 
 use App\Models\Order;
 use App\Repositories\BaseRepository;
+use Carbon\Carbon;
 
 class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 {
@@ -34,5 +35,11 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         return $revenue;
     }
 
-
+    public function getOrderNotHandleWeek()
+    {
+        $orders = Order::where('status', Order::PENDING)
+            ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            ->get();
+        return $orders;
+    }
 }
