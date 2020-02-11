@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Repositories\Product\ProductRepositoryInterface;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
-use App\Models\Cart;
-use App\Models\Product;
 
 class CartController extends Controller
 {
-    public function __construct()
+    protected $productRepo;
+
+    public function __construct(ProductRepositoryInterface $productRepo)
     {
         $this->middleware(['guest', 'check-product-qty'])->except(['index', 'removeItem']);
+        $this->productRepo = $productRepo;
     }
 
     public function index()
@@ -38,7 +40,7 @@ class CartController extends Controller
     public function addToCart(Request $request, $id)
     {
         try {
-            $product = Product::findOrFail($id);
+            $product = $this->productRepo->findOrFail($id);
             $issetCart = Session::has('cart') ? Session::get('cart') : null;
             $cart = new Cart($issetCart);
             if ($cart->items != null && array_key_exists($id, $cart->items)) {
@@ -57,7 +59,7 @@ class CartController extends Controller
     public function increaseOne($id)
     {
         try {
-            $product = Product::findOrFail($id);
+            $product = $this->productRepo->findOrFail($id);
             $oldCart = Session::has('cart') ? Session::get('cart') : null;
             $cart = new Cart($oldCart);
             if ($product->quantity <= $cart->items[$id]['qty']) {

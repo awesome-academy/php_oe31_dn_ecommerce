@@ -3,19 +3,14 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Requests\OrderInforRequest;
-use App\Models\OrderInfor;
 use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\OrderDetail\OrderDetailRepositoryInterface;
 use App\Repositories\OrderInfor\OrderInforRepositoryInterface;
+use App\Repositories\Product\ProductRepositoryInterface;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
-use App\Models\Cart;
-use App\Models\Order;
-use App\Models\OrderDetail;
-use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -24,15 +19,16 @@ class OrderController extends Controller
     protected $orderRepo;
     protected $orderInforRepo;
     protected $orderDetailRepo;
+    protected $productRepo;
 
     public function __construct(OrderRepositoryInterface $orderRepo, OrderInforRepositoryInterface $orderInforRepo,
-        OrderDetailRepositoryInterface $orderDetailRepo
-    )
-    {
+        OrderDetailRepositoryInterface $orderDetailRepo, ProductRepositoryInterface $productRepo
+    ) {
         $this->middleware('guest');
         $this->orderRepo = $orderRepo;
         $this->orderInforRepo = $orderInforRepo;
         $this->orderDetailRepo = $orderDetailRepo;
+        $this->productRepo = $productRepo;
     }
 
     /**
@@ -79,8 +75,8 @@ class OrderController extends Controller
 
         foreach ($cart->items as $item) {
             $product = Product::findOrFail($item['item']->id);
-            $product->quantity -= $item['qty'];
-            $product->save();
+            $data['quantity'] = $product->quantity -= $item['qty'];
+            $this->productRepo->update($item['item']->id, $data);
 
             $orderDetail = [
                 'order_id' => $order->id,
