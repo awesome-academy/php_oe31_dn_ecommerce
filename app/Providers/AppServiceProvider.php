@@ -38,6 +38,36 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\OrderInfor\OrderInforRepositoryInterface::class,
             \App\Repositories\OrderInfor\OrderInforRepository::class
         );
+
+        $this->app->singleton(
+            \App\Repositories\Product\ProductRepositoryInterface::class,
+            \App\Repositories\Product\ProductRepository::class
+        );
+
+        $this->app->singleton(
+            \App\Repositories\Suggest\SuggestRepositoryInterface::class,
+            \App\Repositories\Suggest\SuggestRepository::class
+        );
+
+        $this->app->singleton(
+            \App\Repositories\Image\ImageRepositoryInterface::class,
+            \App\Repositories\Image\ImageRepository::class
+        );
+
+        $this->app->singleton(
+            \App\Repositories\User\UserRepositoryInterface::class,
+            \App\Repositories\User\UserRepository::class
+        );
+
+        $this->app->singleton(
+            \App\Repositories\Rating\RatingRepositoryInterface::class,
+            \App\Repositories\Rating\RatingRepository::class
+        );
+
+        $this->app->singleton(
+            \App\Repositories\Trend\TrendRepositoryInterface::class,
+            \App\Repositories\Trend\TrendRepository::class
+        );
     }
 
     /**
