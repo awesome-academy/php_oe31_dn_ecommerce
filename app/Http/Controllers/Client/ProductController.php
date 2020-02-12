@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\FilterHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Comment;
 
 class ProductController extends Controller
 {
@@ -65,7 +66,6 @@ class ProductController extends Controller
      */
     public function filter($filterBy)
     {
-        $products = Product::class;
         $numPagination = config('custome.paginate_pro');
         $products = $this->productRepo->filter($filterBy, $numPagination);
 
@@ -81,8 +81,8 @@ class ProductController extends Controller
     public function comment(CommentRequest $request, $id)
     {
         try {
-            $product = Product::findOrFail($id);
-            Comment::create([
+            $product = $this->productRepo->findOrFail($id);
+            $this->commentRepo->create([
                 'user_id' => Auth::user()->id,
                 'product_id' => $id,
                 'content' => $request->content,
@@ -111,10 +111,10 @@ class ProductController extends Controller
         try {
             $comment = $this->commentRepo->findOrFail($request->id);
             $attributes['content'] = $request->content;
-            if ($this->commentRepo->update($request->id, $attributes)) {
-                return redirect(route('client.products.detail', ['id' => $comment->product->id]));
-            }
 
+            $this->commentRepo->update($request->id, $attributes);
+
+            return redirect(route('client.products.detail', ['id' => $comment->product->id]));
         } catch (ModelNotFoundException $ex) {
             throw new \Exception($ex->getMessage());
         }
