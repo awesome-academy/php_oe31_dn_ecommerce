@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\Cart;
 use App\Models\Order;
-use App\Models\Product;
 use Pusher\Pusher;
 
 class OrderController extends Controller
@@ -79,7 +78,7 @@ class OrderController extends Controller
         $order = $this->orderRepo->create($order);
 
         foreach ($cart->items as $item) {
-            $product = Product::findOrFail($item['item']->id);
+            $product = $this->productRepo->findOrFail($item['item']->id);
             $data['quantity'] = $product->quantity -= $item['qty'];
             $this->productRepo->update($item['item']->id, $data);
 
