@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use App\Models\Image;
 
 class ProductController extends Controller
 {
@@ -50,7 +51,7 @@ class ProductController extends Controller
     {
         try {
             $storaPath = storage_path(config('custome.path_storage_product'));
-            $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
+            $imageName = time() . '_' . $request->image->getClientOriginalName();
             $data = [
                 'name' => $request->name,
                 'description' => $request->description,
@@ -58,7 +59,7 @@ class ProductController extends Controller
                 'quantity' => $request->quantity,
                 'category_id' => $request->category,
             ];
-            request()->image->move($storaPath, $imageName);
+            $request->image->move($storaPath, $imageName);
             if ($request->has('sale_price')) {
                 $data['sale_price'] = $request->sale_price;
             }
@@ -109,14 +110,14 @@ class ProductController extends Controller
             if ($request->has('sale_percent')) {
                 $product['sale_percent'] = $request->sale_percent;
             }
-            if ($request->hasFile('image')) {
+
+            if ($request->has('image')) {
                 $storaPath = storage_path(config('custome.path_storage_product'));
-                $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
+                $imageName = time() . '_' . $request->image->getClientOriginalName();
                 $image = $this->imageRepo->getFirstImageByProductId($id);
                 $imageUpdate = ['name' => $imageName];
-
                 $this->imageRepo->update($image->id, $imageUpdate);
-                request()->image->move($storaPath, $imageName);
+                $request->image->move($storaPath, $imageName);
             }
             $this->productRepo->update($id, $product);
 
