@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Models\Suggest;
 use App\Repositories\Suggest\SuggestRepositoryInterface;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SuggestRequest;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -36,14 +34,13 @@ class SuggestController extends Controller
     {
         try {
             $storaPath = storage_path(config('custome.path_storage_suggest'));
-            $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
+            $imageName = time() . '_' . $request->image->getClientOriginalName();
+            $request->image->move($storaPath, $imageName);
             $this->suggestRepo->create([
                 'user_id' => auth()->user()->id,
                 'image' => $imageName,
                 'content' => $request->content,
             ]);
-            request()->image->move($storaPath, $imageName);
-            $fileReturn = $storaPath . $imageName;
 
             return redirect()->back()
                 ->with(['suggestSuccess' => trans('custome.suggest_success')]);
