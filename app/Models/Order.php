@@ -13,6 +13,8 @@ class Order extends Model
         'status',
         'order_code',
         'total_price',
+        'created_at',
+        'updated_at',
     ];
 
     /**
