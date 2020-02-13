@@ -24,4 +24,9 @@ interface OrderRepositoryInterface
      * @return mixed
      */
     public function getOrderNotHandleWeek();
+
+    /*
+     * Take 7 order latest
+     */
+    public function getOrderLatest($column, $orderBy, $take);
 }

@@ -42,4 +42,10 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             ->get();
         return $orders;
     }
+
+    public function getOrderLatest($column, $orderBy, $take)
+    {
+        $orders = Order::orderBy($column, $orderBy)->take($take);
+        return $orders;
+    }
 }
